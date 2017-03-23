@@ -1,4 +1,4 @@
-#Unofficial typescript API for Microsoft Cognitive Services based on swagger api definitions.
+# Unofficial typescript API for Microsoft Cognitive Services based on swagger api definitions.
 
 This project generates typescript API for Microsoft Cognitive Services based on swagger api defintions. 
 All params that are in definitions are typed in the API like queryParameters, pathParameters, and even response types. 
@@ -25,7 +25,7 @@ Type definitions for parameters are defined in swagger defintion, so no magick h
 ```
 and using typescript compiler API in order to retrieve the type of the response. Unfortunately because some of the defintions contain invalid response examples types for response object are not always correct.
 
-##How to use 
+## How to use 
 Just get some of the API like this:
 ```ts
 import { FaceAPI } from 'swagger-cognitive-sevices';
