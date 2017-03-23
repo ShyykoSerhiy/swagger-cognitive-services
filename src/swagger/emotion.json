@@ -1,0 +1,320 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Emotion API",
+    "version": "1.0"
+  },
+  "host": "westus.api.cognitive.microsoft.com",
+  "basePath": "/emotion/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/recognize": {
+      "post": {
+        "description": "<p>Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. <br/>&bull; The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB. <br/>&bull; If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles. <br/>&bull; The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected. <br/>&bull; For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned. <br/>&bull; Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results. <br/>&bull; The emotions contempt and disgust are experimental.</p>",
+        "operationId": "Emotion Recognition",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful call returns an array of face entries and their associated emotion scores, ranked by face rectangle size in descending order. An empty response indicates that no faces were detected. An emotion entry contains the following fields:\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            <tr><th>Fields</th><th>Description</th></tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td>faceRectangle</td><td>Rectangle location of face in the image.</td></tr>\r\n            <tr><td>scores</td><td>Emotion scores for each face in the image. </td></tr>\r\n             </tbody>\r\n            </table>\r\n",
+            "examples": {
+              "application/json": "[\r\n  {\r\n    \"faceRectangle\": {\r\n      \"left\": 68,\r\n      \"top\": 97,\r\n      \"width\": 64,\r\n      \"height\": 97\r\n    },\r\n    \"scores\": {\r\n      \"anger\": 0.00300731952,\r\n      \"contempt\": 5.14648448E-08,\r\n      \"disgust\": 9.180124E-06,\r\n      \"fear\": 0.0001912825,\r\n      \"happiness\": 0.9875571,\r\n      \"neutral\": 0.0009861537,\r\n      \"sadness\": 1.889955E-05,\r\n      \"surprise\": 0.008229999\r\n    }\r\n  }\r\n]"
+            }
+          },
+          "400": {
+            "description": "Indicates JSON parsing error, faceRectangles cannot be parsed correctly, or count exceeds 64, or content-type is not recognized."
+          },
+          "401": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 401,
+                "message": "Access denied due to invalid subscription key. Make sure you are subscribed to an API you are trying to call and provide the right key."
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 403,
+                "message": "Out of call volume quota. Quota will be replenished in 2.12 days."
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 429,
+                "message": "Rate limit is exceeded. Try again in 26 seconds."
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/recognizeinvideo": {
+      "post": {
+        "description": "<p>Welcome to the Microsoft Emotion API for Video. Emotion API for Video is a cloud-based API that recognizes the emotions expressed by the people in an image and returns their emotions. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. These APIs allow you to build more personalized and intelligent apps by understanding your video content. </p>\r\n<br/>\r\nEmotion Recognition<br/>\r\nReturns aggregate emotions for the faces in a video.<br/>\r\n&bull; The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. <br/>\r\n&bull; The detectable face size range is 24x24 to 2048x2048 pixels. The faces out of this range will not be detected. <br/>\r\n&bull; For each video, the maximum number of faces returned is 64. <br/>\r\n&bull; Some faces may not be detected due to technical challenges; e.g. very large face angles (head-pose), and large occlusion. Frontal and near-frontal faces have the best results. <br/>\r\n&bull; Output files are deleted after 24 hours. <br/>",
+        "operationId": "Emotion Recognition in Video",
+        "parameters": [
+          {
+            "name": "outputStyle",
+            "in": "query",
+            "description": "Defaults to â€œaggregateâ€ style, but a user can specify â€œperFrameâ€ style.",
+            "type": "string",
+            "default": "aggregate",
+            "enum": [
+              "aggregate",
+              "perFrame"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "The service has accepted the request and will start the process later.<br/>\r\nIn the response, there is a <b>\"Operation-Location\"</b> header. Client side should further query the operation status from the URL specified in this header.\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td><b>Operation-Location</b></td><td>Client side should use this URL to query video operation status/result. <br/> Example: https://api.projectoxford.ai/emotion/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n.</td></tr>\r\n             </tbody>\r\n</table>"
+          },
+          "400": {
+            "description": " Error code and message returned in JSON:\r\n      <table class=\"element table\">\r\n      <thead>\r\n      <tr><th>Error Code</th><th>Description</th></tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr><td>InvalidVideoSize</td><td>Video size is too small or too big.</td></tr>\r\n      <tr><td>BadArgument</td><td>Failed to deserialize JSON request.</td></tr>          </tbody>\r\n      </table>",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InvalidVideoSize",
+                  "message": "Video size is too small or too big."
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "When Content-Type is not application/json or application/octet-stream."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/operations/{oid}": {
+      "get": {
+        "description": "Get operation result. If succeeded, this interface returns a JSON that includes time stamps and operation status/result. Below is an example: <br/>\r\n\r\nExample JSON:\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr>\r\n{<br/>\r\n\t\"status\": \"Running\",<br/>\r\n\t\"createdDateTime\":  \"2015-09-30T01:28:23.4493273Z\",<br/>\r\n\t\"lastActionDateTime\": \"2015-09-30T01:32:23.0895791Z\",<br/>\r\n}<br/>\r\n             </tr>\r\n            </tbody>\r\n</table>\r\n<br/>\r\n<p>\r\nPossible values of \"status\" field are:<br/>\r\n<b>Not Started</b> - video content is received/uploaded but the process has not started.<br/>\r\n<b>Uploading</b> - the video content is being uploaded by the URL client side provides.<br/>\r\n<b>Running</b> - the process is running.<br/>\r\n<b>Failed</b> - the process is failed. Detailed information will be provided in \"message\" field.<br/>\r\n<b>Succeeded</b> - the process succeeded. In this case, depending on specific operation client side created, the result can be retrieved in following two ways:<br/>\r\n</p>\r\nThe result (as a JSON in string) is available in <b>processingResult</b> field.",
+        "operationId": "Get Recognition in Video Operation Result",
+        "parameters": [
+          {
+            "name": "oid",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation result/status as JSON.",
+            "examples": {
+              "application/json": {
+                "status": "running",
+                "createdDateTime": "2015-09-30T01:28:23Z",
+                "lastActionDateTime": "2015-09-30T01:32:23Z"
+              }
+            }
+          },
+          "400": {
+            "description": "The operation ID is not specified."
+          },
+          "404": {
+            "description": "The operation with given operation ID not found."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "x-ms-paths": {
+    "/recognize?faceRectangles={faceRectangles}": {
+      "post": {
+        "description": "<p>Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. <br/>&bull; The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB. <br/>&bull; If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles. <br/>&bull; The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected. <br/>&bull; For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned. <br/>&bull; Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results. <br/>&bull; The emotions contempt and disgust are experimental.</p>",
+        "operationId": "Emotion Recognition with Face Rectangles",
+        "parameters": [
+          {
+            "name": "faceRectangles",
+            "in": "query",
+            "description": "A face rectangle is in the form â€œleft,top,width,heightâ€. Delimited multiple face rectangles with a â€œ;â€. ",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful call returns an array of face entries and their associated emotion scores, ranked by face rectangle size in descending order. An empty response indicates that no faces were detected. An emotion entry contains the following fields:\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            <tr><th>Fields</th><th>Description</th></tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td>faceRectangle</td><td>Rectangle location of face in the image.</td></tr>\r\n            <tr><td>scores</td><td>Emotion scores for each face in the image. </td></tr>\r\n             </tbody>\r\n            </table>",
+            "examples": {
+              "application/json": "[\r\n  {\r\n    \"faceRectangle\": {\r\n      \"left\": 68,\r\n      \"top\": 97,\r\n      \"width\": 64,\r\n      \"height\": 97\r\n    },\r\n    \"scores\": {\r\n      \"anger\": 0.00300731952,\r\n      \"contempt\": 5.14648448E-08,\r\n      \"disgust\": 9.180124E-06,\r\n      \"fear\": 0.0001912825,\r\n      \"happiness\": 0.9875571,\r\n      \"neutral\": 0.0009861537,\r\n      \"sadness\": 1.889955E-05,\r\n      \"surprise\": 0.008229999\r\n    }\r\n  }\r\n]"
+            }
+          },
+          "400": {
+            "description": "Indicates JSON parsing error, faceRectangles cannot be parsed correctly, or count exceeds 64, or content-type is not recognized."
+          },
+          "401": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 401,
+                "message": "Access denied due to invalid subscription key. Make sure you are subscribed to an API you are trying to call and provide the right key."
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 403,
+                "message": "Out of call volume quota. Quota will be replenished in 2.12 days."
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "statusCode": 429,
+                "message": "Rate limit is exceeded. Try again in 26 seconds."
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  }
+}

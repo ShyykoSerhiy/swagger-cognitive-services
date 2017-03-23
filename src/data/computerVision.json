@@ -1,0 +1,373 @@
+{
+  "name": "ComputerVision",
+  "url": "http://westus.api.cognitive.microsoft.com/vision/v1.0",
+  "methods": [
+    {
+      "normName": "analyzeImagePost",
+      "normNameCap": "AnalyzeImagePost",
+      "responseTypeName": "AnalyzeImagePostResult",
+      "responseType": "{ \"categories\": ({ \"name\": string; \"score\": number; } | { \"name\": string; \"score\": number; \"detail\": { \"celebrities\": { \"name\": string; \"faceRectangle\": { \"left\": number; \"top\": number; \"width\": number; \"height\": number; }; \"confidence\": number; }[]; }; })[]; \"adult\": { \"isAdultContent\": boolean; \"isRacyContent\": boolean; \"adultScore\": number; \"racyScore\": number; }; \"tags\": { \"name\": string; \"confidence\": number; }[]; \"description\": { \"tags\": string[]; \"captions\": { \"text\": string; \"confidence\": number; }[]; }; \"requestId\": string; \"metadata\": { \"width\": number; \"height\": number; \"format\": string; }; \"faces\": { \"age\": number; \"gender\": string; \"faceRectangle\": { \"left\": number; \"top\": number; \"width\": number; \"height\": number; }; }[]; \"color\": { \"dominantColorForeground\": string; \"dominantColorBackground\": string; \"dominantColors\": string[]; \"accentColor\": string; \"isBWImg\": boolean; }; \"imageType\": { \"clipArtType\": number; \"lineDrawingType\": number; }; }",
+      "description": "This operation extracts a rich set of visual features based on the image content. \r\n        \r\n        \r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  Within your request, there is an optional parameter to allow you to choose which features to return.  By default, image categories are returned in the response. \r\n        \r\n        \r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\nHttp Method\r\nPOST",
+      "path": "/analyze",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "visualFeatures",
+          "in": "query",
+          "description": "A string indicating what visual feature types to return. Multiple values should be comma-separated. \n<br/>Valid visual feature types include:\n<br/>\t\n<ul>\n<li><b>Categories</b> - categorizes image content according to a taxonomy defined in documentation. </li>\n<li><b>Tags</b> - tags the image with a detailed list of words related to the image content. </li>\n<li><b>Description</b> - describes the image content with a complete English sentence. </li>\n<li><b>Faces</b> - detects if faces are present. If present, generate coordinates, gender and age.</li> \n<li><b >ImageType</b> - detects if image is clipart or a line drawing.</li>\n<li><b> Color</b> - determines the accent color, dominant color, and whether an image is black&white.</li>\n<li><b>Adult</b> - detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually suggestive content is also detected.</li>\n</ul>",
+          "type": "string",
+          "default": "Categories",
+          "enum": [
+            "ImageType",
+            "Faces",
+            "Adult",
+            "Categories",
+            "Color",
+            "Tags",
+            "Description"
+          ],
+          "normName": "visualFeatures"
+        },
+        {
+          "name": "details",
+          "in": "query",
+          "description": "A string indicating which domain-specific details to return. Multiple values should be comma-separated. \n<br/>Valid visual feature types include:\n<br/>\t\n<ul>\n<li><b >Celebrities</b> - identifies celebrities if detected in the image.</li>\n</ul>\n",
+          "type": "string",
+          "enum": [
+            "Celebrities"
+          ],
+          "normName": "details"
+        },
+        {
+          "name": "language",
+          "in": "query",
+          "description": "A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.<br />\nSupported languages:\n<ul>\n<li><b >en</b> - English, Default.</li>\n<li><b >zh</b> - Simplified Chinese.</li>\n</ul>",
+          "type": "string",
+          "default": "en",
+          "enum": [
+            "en",
+            "zh"
+          ],
+          "normName": "language"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "AnalyzeImagePostQueryParameters",
+      "normHeaderParametersName": "AnalyzeImagePostHeaderParameters",
+      "normPathParametersName": "AnalyzeImagePostPathParameters",
+      "params": "queryParams: AnalyzeImagePostQueryParameters, headerParams: AnalyzeImagePostHeaderParameters"
+    },
+    {
+      "normName": "getThumbnailPost",
+      "normNameCap": "GetThumbnailPost",
+      "responseTypeName": "GetThumbnailPostResult",
+      "responseType": "{}",
+      "description": "This operation generates a thumbnail image with the user-specified width and height.  By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI.  Smart cropping helps when you specify an aspect ratio that differs from that of the input image\r\n\r\nA successful response contains the thumbnail image binary.  If the request failed, the response contains an error code and a message to help determine what went wrong.\r\n\r\n\r\nUpon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.\r\n\r\nHttp Method\r\nPOST\r\n",
+      "path": "/generateThumbnail",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "smartCropping",
+          "in": "query",
+          "description": "Boolean flag for enabling smart cropping.",
+          "type": "boolean",
+          "default": "true",
+          "enum": [
+            "true"
+          ],
+          "normName": "smartCropping"
+        },
+        {
+          "name": "width",
+          "in": "query",
+          "description": "Width of the thumbnail.  It must be between 1 and 1024. Recommended minimum of 50.",
+          "required": true,
+          "type": "number",
+          "normName": "width"
+        },
+        {
+          "name": "height",
+          "in": "query",
+          "description": "Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.",
+          "required": true,
+          "type": "number",
+          "normName": "height"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "GetThumbnailPostQueryParameters",
+      "normHeaderParametersName": "GetThumbnailPostHeaderParameters",
+      "normPathParametersName": "GetThumbnailPostPathParameters",
+      "params": "queryParams: GetThumbnailPostQueryParameters, headerParams: GetThumbnailPostHeaderParameters"
+    },
+    {
+      "normName": "oCRPost",
+      "normNameCap": "OCRPost",
+      "responseTypeName": "OCRPostResult",
+      "responseType": "{ \"language\": string; \"textAngle\": number; \"orientation\": string; \"regions\": { \"boundingBox\": string; \"lines\": { \"boundingBox\": string; \"words\": { \"boundingBox\": string; \"text\": string; }[]; }[]; }[]; }",
+      "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.   \r\n\r\n\r\nUpon success, the OCR results will be returned. \r\n\r\nUpon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,  NotSupportedLanguage, or InternalServerError.\r\n\r\nHttp Method\r\nPOST",
+      "path": "/ocr",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "language",
+          "in": "query",
+          "description": "The BCP-47 language code of the text to be detected in the image.The default value is &quot;unk&quot;, then the service will auto detect the language of the text in the image.<br />\n    <br />\n    Supported languages:\n    <ul style=\"margin-left:.375in;direction:ltr;unicode-bidi:embed;\n margin-top:0in;margin-bottom:0in\" type=\"disc\">\n        <li>unk (AutoDetect)</li>\n        <li>zh-Hans (ChineseSimplified)</li>\n        <li>zh-Hant (ChineseTraditional)</li>\n        <li>cs (Czech)</li>\n        <li>da (Danish)</li>\n        <li>nl (Dutch)</li>\n        <li>en (English)</li>\n        <li>fi (Finnish)</li>\n        <li>fr (French)</li>\n        <li>de (German)</li>\n        <li>el (Greek)</li>\n        <li>hu (Hungarian)</li>\n        <li>it (Italian)</li>\n        <li>Ja (Japanese)</li>\n        <li>ko (Korean)</li>\n        <li>nb (Norwegian)</li>\n        <li>pl (Polish)</li>\n        <li>pt (Portuguese,</li>\n        <li>ru (Russian)</li>\n        <li>es (Spanish)</li>\n        <li>sv (Swedish)</li>\n        <li>tr (Turkish)</li>\n    </ul>",
+          "type": "string",
+          "default": "unk",
+          "enum": [
+            "unk",
+            "zh-Hans",
+            " zh-Hant",
+            "cs",
+            "da",
+            "nl",
+            "en",
+            "fi",
+            "fr",
+            "de",
+            "el",
+            "hu",
+            "it",
+            "ja",
+            "ko",
+            "nb",
+            "pl",
+            "pt",
+            "ru",
+            "es",
+            "sv",
+            "tr"
+          ],
+          "normName": "language"
+        },
+        {
+          "name": "detectOrientation ",
+          "in": "query",
+          "description": "Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it's upside-down). ",
+          "type": "boolean",
+          "default": "true",
+          "enum": [
+            "true",
+            "false"
+          ],
+          "normName": "detectOrientation"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "OCRPostQueryParameters",
+      "normHeaderParametersName": "OCRPostHeaderParameters",
+      "normPathParametersName": "OCRPostPathParameters",
+      "params": "queryParams: OCRPostQueryParameters, headerParams: OCRPostHeaderParameters"
+    },
+    {
+      "normName": "listDomainSpecificModelsGet",
+      "normNameCap": "ListDomainSpecificModelsGet",
+      "responseTypeName": "ListDomainSpecificModelsGetResult",
+      "responseType": "{ \"models\": { \"name\": string; \"categories\": string[]; }[]; }",
+      "description": "This operation returns the list of domain-specific models that are supported by the Computer Vision API.  Currently, the API only supports one domain-specific model: a celebrity recognizer.\r\n        \r\n        \r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\nHttp Method\r\nGET",
+      "path": "/models",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "ListDomainSpecificModelsGetQueryParameters",
+      "normHeaderParametersName": "ListDomainSpecificModelsGetHeaderParameters",
+      "normPathParametersName": "ListDomainSpecificModelsGetPathParameters",
+      "params": "queryParams: ListDomainSpecificModelsGetQueryParameters, headerParams: ListDomainSpecificModelsGetHeaderParameters"
+    },
+    {
+      "normName": "describeImagePost",
+      "normNameCap": "DescribeImagePost",
+      "responseTypeName": "DescribeImagePostResult",
+      "responseType": "{ \"description\": { \"tags\": string[]; \"captions\": { \"text\": string; \"confidence\": number; }[]; }; \"requestId\": string; \"metadata\": { \"width\": number; \"height\": number; \"format\": string; }; }",
+      "description": "This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English.\r\n        \r\n        \r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        \r\n        \r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\nHttp Method\r\nPOST",
+      "path": "/describe",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "maxCandidates",
+          "in": "query",
+          "description": "Maximum number of candidate descriptions to be returned.  The default is 1.",
+          "type": "string",
+          "default": "1",
+          "enum": [
+            "1"
+          ],
+          "normName": "maxCandidates"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "DescribeImagePostQueryParameters",
+      "normHeaderParametersName": "DescribeImagePostHeaderParameters",
+      "normPathParametersName": "DescribeImagePostPathParameters",
+      "params": "queryParams: DescribeImagePostQueryParameters, headerParams: DescribeImagePostHeaderParameters"
+    },
+    {
+      "normName": "tagImagePost",
+      "normNameCap": "TagImagePost",
+      "responseTypeName": "TagImagePostResult",
+      "responseType": "{ \"tags\": { \"name\": string; \"confidence\": number; }[]; \"requestId\": string; \"metadata\": { \"width\": number; \"height\": number; \"format\": string; }; }",
+      "description": "This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag â€œcelloâ€ may be accompanied by the hint â€œmusical instrumentâ€. All tags are in English.\r\n        \r\n        \r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        \r\n        \r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\nHttp Method\r\nPOST",
+      "path": "/tag",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "TagImagePostQueryParameters",
+      "normHeaderParametersName": "TagImagePostHeaderParameters",
+      "normPathParametersName": "TagImagePostPathParameters",
+      "params": "queryParams: TagImagePostQueryParameters, headerParams: TagImagePostHeaderParameters"
+    },
+    {
+      "normName": "recognizeDomainSpecificContentPost",
+      "normNameCap": "RecognizeDomainSpecificContentPost",
+      "responseTypeName": "RecognizeDomainSpecificContentPostResult",
+      "responseType": "{ \"requestId\": string; \"metadata\": { \"width\": number; \"height\": number; \"format\": string; }; \"result\": { \"celebrities\": { \"name\": string; \"faceRectangle\": { \"left\": number; \"top\": number; \"width\": number; \"height\": number; }; \"confidence\": number; }[]; }; }",
+      "description": "This operation recognizes content within an image by applying a domain-specific model.  The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.  Currently, the API only provides a single domain-specific model: celebrities.\r\n        \r\n        \r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        \r\n        \r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\nHttp Method\r\nPOST",
+      "path": "/models/{model}/analyze",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "model",
+          "in": "path",
+          "description": "The domain-specific content to recognize.",
+          "required": true,
+          "type": "string",
+          "normName": "model"
+        }
+      ],
+      "normQueryParametersName": "RecognizeDomainSpecificContentPostQueryParameters",
+      "normHeaderParametersName": "RecognizeDomainSpecificContentPostHeaderParameters",
+      "normPathParametersName": "RecognizeDomainSpecificContentPostPathParameters",
+      "params": "queryParams: RecognizeDomainSpecificContentPostQueryParameters, headerParams: RecognizeDomainSpecificContentPostHeaderParameters, pathParams: RecognizeDomainSpecificContentPostPathParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}

@@ -1,0 +1,701 @@
+{
+  "name": "SpeakerRecognition",
+  "url": "https://westus.api.cognitive.microsoft.com/spid/v1.0",
+  "methods": [
+    {
+      "normName": "verificationProfileCreateProfilePost",
+      "normNameCap": "VerificationProfileCreateProfilePost",
+      "responseTypeName": "VerificationProfileCreateProfilePostResult",
+      "responseType": "{ \"verificationProfileId\": string; }",
+      "description": "Create a new speaker verification profile with specific locale.\r\nOne subscription can only create 1000 speaker verification/identification profiles at most.",
+      "path": "/verificationProfiles",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileCreateProfilePostQueryParameters",
+      "normHeaderParametersName": "VerificationProfileCreateProfilePostHeaderParameters",
+      "normPathParametersName": "VerificationProfileCreateProfilePostPathParameters",
+      "params": "queryParams: VerificationProfileCreateProfilePostQueryParameters, headerParams: VerificationProfileCreateProfilePostHeaderParameters"
+    },
+    {
+      "normName": "verificationProfileGetAllProfilesGet",
+      "normNameCap": "VerificationProfileGetAllProfilesGet",
+      "responseTypeName": "VerificationProfileGetAllProfilesGetResult",
+      "responseType": "{ \"verificationProfileId\": string; \"locale\": string; \"enrollmentsCount\": number; \"remainingEnrollmentsCount\": number; \"createdDateTime\": string; \"lastActionDateTime\": string; \"enrollmentStatus\": string; }[]",
+      "description": "Get all speaker verification profiles within the subscription.",
+      "path": "/verificationProfiles",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileGetAllProfilesGetQueryParameters",
+      "normHeaderParametersName": "VerificationProfileGetAllProfilesGetHeaderParameters",
+      "normPathParametersName": "VerificationProfileGetAllProfilesGetPathParameters",
+      "params": "queryParams: VerificationProfileGetAllProfilesGetQueryParameters, headerParams: VerificationProfileGetAllProfilesGetHeaderParameters"
+    },
+    {
+      "normName": "verificationProfileDeleteProfileDelete",
+      "normNameCap": "VerificationProfileDeleteProfileDelete",
+      "responseTypeName": "VerificationProfileDeleteProfileDeleteResult",
+      "responseType": "{}",
+      "description": "Deletes both speaker verification profile and all associated enrollments permanently from the service.",
+      "path": "/verificationProfiles/{verificationProfileId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "verificationProfileId",
+          "in": "path",
+          "description": "ID of speaker verification profile. It should be a GUID.",
+          "required": true,
+          "type": "string",
+          "enum": [
+            "7180c319-88b5-4cf0-824d-1dfd5d4854f4"
+          ],
+          "normName": "verificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileDeleteProfileDeleteQueryParameters",
+      "normHeaderParametersName": "VerificationProfileDeleteProfileDeleteHeaderParameters",
+      "normPathParametersName": "VerificationProfileDeleteProfileDeletePathParameters",
+      "params": "queryParams: VerificationProfileDeleteProfileDeleteQueryParameters, headerParams: VerificationProfileDeleteProfileDeleteHeaderParameters, pathParams: VerificationProfileDeleteProfileDeletePathParameters"
+    },
+    {
+      "normName": "verificationProfileGetProfileGet",
+      "normNameCap": "VerificationProfileGetProfileGet",
+      "responseTypeName": "VerificationProfileGetProfileGetResult",
+      "responseType": "{ \"verificationProfileId\": string; \"locale\": string; \"enrollmentsCount\": number; \"remainingEnrollmentsCount\": number; \"createdDateTime\": string; \"lastActionDateTime\": string; \"enrollmentStatus\": string; }",
+      "description": "Get a speaker verification profile by verificationProfileId",
+      "path": "/verificationProfiles/{verificationProfileId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "verificationProfileId",
+          "in": "path",
+          "description": "ID of speaker verification profile. It should be a GUID.",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "verificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileGetProfileGetQueryParameters",
+      "normHeaderParametersName": "VerificationProfileGetProfileGetHeaderParameters",
+      "normPathParametersName": "VerificationProfileGetProfileGetPathParameters",
+      "params": "queryParams: VerificationProfileGetProfileGetQueryParameters, headerParams: VerificationProfileGetProfileGetHeaderParameters, pathParams: VerificationProfileGetProfileGetPathParameters"
+    },
+    {
+      "normName": "verificationProfileResetEnrollmentsPost",
+      "normNameCap": "VerificationProfileResetEnrollmentsPost",
+      "responseTypeName": "VerificationProfileResetEnrollmentsPostResult",
+      "responseType": "{}",
+      "description": "Deletes all enrollments associated with the given speaker’s verification profile permanently from the service.",
+      "path": "/verificationProfiles/{verificationProfileId}/reset",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "verificationProfileId",
+          "in": "path",
+          "description": "ID of speaker verification profile. It should be a GUID.",
+          "required": true,
+          "type": "string",
+          "enum": [
+            "7180c319-88b5-4cf0-824d-1dfd5d4854f4"
+          ],
+          "normName": "verificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileResetEnrollmentsPostQueryParameters",
+      "normHeaderParametersName": "VerificationProfileResetEnrollmentsPostHeaderParameters",
+      "normPathParametersName": "VerificationProfileResetEnrollmentsPostPathParameters",
+      "params": "queryParams: VerificationProfileResetEnrollmentsPostQueryParameters, headerParams: VerificationProfileResetEnrollmentsPostHeaderParameters, pathParams: VerificationProfileResetEnrollmentsPostPathParameters"
+    },
+    {
+      "normName": "verificationProfileCreateEnrollmentPost",
+      "normNameCap": "VerificationProfileCreateEnrollmentPost",
+      "responseTypeName": "VerificationProfileCreateEnrollmentPostResult",
+      "responseType": "{ \"enrollmentStatus\": string; \"enrollmentsCount\": number; \"remainingEnrollments\": number; \"phrase\": string; }",
+      "description": "Enrollment for speaker verification is text-dependent, which means speaker need to choose a specific phrase to use in both enrollment and verification. List of supported phrases can be found in Verification Phrase - List All Supported Verification Phrases.\r\nThe service requires at least 3 enrollments for each speaker before the profile can be used in verification scenarios. It is recommended to use the same device (mic) in both enrollment and verification.",
+      "path": "/verificationProfiles/{verificationProfileId}/enroll",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "verificationProfileId",
+          "in": "path",
+          "description": "ID of speaker verification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/563309b7778daf06340c9652\">Verification Profile - Create Profile</a> API",
+          "required": true,
+          "type": "string",
+          "enum": [
+            "94BC205B-FACD-42A7-9D80-485403106627"
+          ],
+          "normName": "verificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "VerificationProfileCreateEnrollmentPostQueryParameters",
+      "normHeaderParametersName": "VerificationProfileCreateEnrollmentPostHeaderParameters",
+      "normPathParametersName": "VerificationProfileCreateEnrollmentPostPathParameters",
+      "params": "queryParams: VerificationProfileCreateEnrollmentPostQueryParameters, headerParams: VerificationProfileCreateEnrollmentPostHeaderParameters, pathParams: VerificationProfileCreateEnrollmentPostPathParameters"
+    },
+    {
+      "normName": "speakerRecognitionVerificationPost",
+      "normNameCap": "SpeakerRecognitionVerificationPost",
+      "responseTypeName": "SpeakerRecognitionVerificationPostResult",
+      "responseType": "{ \"result\": string; \"confidence\": string; \"phrase\": string; }",
+      "description": "To automatically verify and authenticate users using their voice or speech.",
+      "path": "/verify",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "verificationProfileId",
+          "in": "query",
+          "description": "ID of speaker verification profile. It should be a GUID.",
+          "required": true,
+          "type": "string",
+          "enum": [
+            "94BC205B-FACD-42A7-9D80-485403106627"
+          ],
+          "normName": "verificationProfileId"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "SpeakerRecognitionVerificationPostQueryParameters",
+      "normHeaderParametersName": "SpeakerRecognitionVerificationPostHeaderParameters",
+      "normPathParametersName": "SpeakerRecognitionVerificationPostPathParameters",
+      "params": "queryParams: SpeakerRecognitionVerificationPostQueryParameters, headerParams: SpeakerRecognitionVerificationPostHeaderParameters"
+    },
+    {
+      "normName": "identificationProfileCreateProfilePost",
+      "normNameCap": "IdentificationProfileCreateProfilePost",
+      "responseTypeName": "IdentificationProfileCreateProfilePostResult",
+      "responseType": "{ \"identificationProfileId\": string; }",
+      "description": "Create a new speaker identification profile with specified locale.\r\nOne subscription can only create 1000 speaker verification/identification profiles at most.",
+      "path": "/identificationProfiles",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileCreateProfilePostQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileCreateProfilePostHeaderParameters",
+      "normPathParametersName": "IdentificationProfileCreateProfilePostPathParameters",
+      "params": "queryParams: IdentificationProfileCreateProfilePostQueryParameters, headerParams: IdentificationProfileCreateProfilePostHeaderParameters"
+    },
+    {
+      "normName": "identificationProfileGetAllProfilesGet",
+      "normNameCap": "IdentificationProfileGetAllProfilesGet",
+      "responseTypeName": "IdentificationProfileGetAllProfilesGetResult",
+      "responseType": "{ \"identificationProfileId\": string; \"locale\": string; \"enrollmentSpeechTime\": any; 0.0: any; \"createdDateTime\": string; \"lastActionDateTime\": string; \"enrollmentStatus\": string; }[]",
+      "description": "Get all speaker identification profiles within the subscription.",
+      "path": "/identificationProfiles",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileGetAllProfilesGetQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileGetAllProfilesGetHeaderParameters",
+      "normPathParametersName": "IdentificationProfileGetAllProfilesGetPathParameters",
+      "params": "queryParams: IdentificationProfileGetAllProfilesGetQueryParameters, headerParams: IdentificationProfileGetAllProfilesGetHeaderParameters"
+    },
+    {
+      "normName": "identificationProfileGetProfileGet",
+      "normNameCap": "IdentificationProfileGetProfileGet",
+      "responseTypeName": "IdentificationProfileGetProfileGetResult",
+      "responseType": "{ \"identificationProfileId\": string; \"locale\": string; \"enrollmentSpeechTime\": any; 0.0: any; \"createdDateTime\": string; \"lastActionDateTime\": string; \"enrollmentStatus\": string; }",
+      "description": "Get a speaker identification profile by identificationProfileId.",
+      "path": "/identificationProfiles/{identificationProfileId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "identificationProfileId",
+          "in": "path",
+          "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "identificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileGetProfileGetQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileGetProfileGetHeaderParameters",
+      "normPathParametersName": "IdentificationProfileGetProfileGetPathParameters",
+      "params": "queryParams: IdentificationProfileGetProfileGetQueryParameters, headerParams: IdentificationProfileGetProfileGetHeaderParameters, pathParams: IdentificationProfileGetProfileGetPathParameters"
+    },
+    {
+      "normName": "identificationProfileDeleteProfileDelete",
+      "normNameCap": "IdentificationProfileDeleteProfileDelete",
+      "responseTypeName": "IdentificationProfileDeleteProfileDeleteResult",
+      "responseType": "{}",
+      "description": "Deletes both speaker identification profile and all associated enrollments permanently from the service.",
+      "path": "/identificationProfiles/{identificationProfileId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "identificationProfileId",
+          "in": "path",
+          "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "identificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileDeleteProfileDeleteQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileDeleteProfileDeleteHeaderParameters",
+      "normPathParametersName": "IdentificationProfileDeleteProfileDeletePathParameters",
+      "params": "queryParams: IdentificationProfileDeleteProfileDeleteQueryParameters, headerParams: IdentificationProfileDeleteProfileDeleteHeaderParameters, pathParams: IdentificationProfileDeleteProfileDeletePathParameters"
+    },
+    {
+      "normName": "identificationProfileResetEnrollmentsPost",
+      "normNameCap": "IdentificationProfileResetEnrollmentsPost",
+      "responseTypeName": "IdentificationProfileResetEnrollmentsPostResult",
+      "responseType": "{}",
+      "description": "Deletes all enrollments associated with the given speaker identification profile permanently from the service.",
+      "path": "/identificationProfiles/{identificationProfileId}/reset",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "identificationProfileId",
+          "in": "path",
+          "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "identificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileResetEnrollmentsPostQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileResetEnrollmentsPostHeaderParameters",
+      "normPathParametersName": "IdentificationProfileResetEnrollmentsPostPathParameters",
+      "params": "queryParams: IdentificationProfileResetEnrollmentsPostQueryParameters, headerParams: IdentificationProfileResetEnrollmentsPostHeaderParameters, pathParams: IdentificationProfileResetEnrollmentsPostPathParameters"
+    },
+    {
+      "normName": "identificationProfileCreateEnrollmentPost",
+      "normNameCap": "IdentificationProfileCreateEnrollmentPost",
+      "responseTypeName": "IdentificationProfileCreateEnrollmentPostResult",
+      "responseType": "{}",
+      "description": "Enrollment for speaker identification is text-independent, which means that there are no restrictions on what the speaker says in the audio. The speaker's voice is recorded, and a number of features are extracted to form a unique voiceprint.",
+      "path": "/identificationProfiles/{identificationProfileId}/enroll",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "shortAudio",
+          "in": "query",
+          "description": "Instruct the service to waive the <b>recommended</b> minimum audio limit needed for enrollment. Set value to “<b>true</b>” to force enrollment using any audio length (min. 1 second).",
+          "type": "boolean",
+          "enum": [
+            "true",
+            "false"
+          ],
+          "normName": "shortAudio"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "identificationProfileId",
+          "in": "path",
+          "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "identificationProfileId"
+        }
+      ],
+      "normQueryParametersName": "IdentificationProfileCreateEnrollmentPostQueryParameters",
+      "normHeaderParametersName": "IdentificationProfileCreateEnrollmentPostHeaderParameters",
+      "normPathParametersName": "IdentificationProfileCreateEnrollmentPostPathParameters",
+      "params": "queryParams: IdentificationProfileCreateEnrollmentPostQueryParameters, headerParams: IdentificationProfileCreateEnrollmentPostHeaderParameters, pathParams: IdentificationProfileCreateEnrollmentPostPathParameters"
+    },
+    {
+      "normName": "speakerRecognitionIdentificationPost",
+      "normNameCap": "SpeakerRecognitionIdentificationPost",
+      "responseTypeName": "SpeakerRecognitionIdentificationPostResult",
+      "responseType": "{}",
+      "description": "To automatically identify who is speaking given a group of speakers.",
+      "path": "/identify",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "identificationProfileIds",
+          "in": "query",
+          "description": "Comma-delimited identificationProfileIds, the id should be Guid.<br/>It can only support at most 10 profiles for one identification request.",
+          "required": true,
+          "type": "string",
+          "default": "111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9",
+          "enum": [
+            "111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9"
+          ],
+          "normName": "identificationProfileIds"
+        },
+        {
+          "name": "shortAudio",
+          "in": "query",
+          "description": "Instruct the service to waive the <b>recommended</b> minimum audio limit needed for identification. Set value to “<b>true</b>” to force identification using any audio length (min. 1 second).",
+          "type": "boolean",
+          "enum": [
+            "true",
+            "false"
+          ],
+          "normName": "shortAudio"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "SpeakerRecognitionIdentificationPostQueryParameters",
+      "normHeaderParametersName": "SpeakerRecognitionIdentificationPostHeaderParameters",
+      "normPathParametersName": "SpeakerRecognitionIdentificationPostPathParameters",
+      "params": "queryParams: SpeakerRecognitionIdentificationPostQueryParameters, headerParams: SpeakerRecognitionIdentificationPostHeaderParameters"
+    },
+    {
+      "normName": "speakerRecognitionGetOperationStatusGet",
+      "normNameCap": "SpeakerRecognitionGetOperationStatusGet",
+      "responseTypeName": "SpeakerRecognitionGetOperationStatusGetResult",
+      "responseType": "{}",
+      "description": "Get operation status or result. The operation should be created by  Speaker Recognition - Identification or  Identification Profile - Create Enrollment. And the URL should be retrieved from Operation-Location header of initial POST 202 response",
+      "path": "/operations/{operationId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "operationId",
+          "in": "path",
+          "description": "The operation Id, created by <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c523778daf217c292592\"> Speaker Recognition - Identification</a> or <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c3271984551c84ec6797\"> Identification Profile - Create Enrollment</a>. ",
+          "required": true,
+          "type": "string",
+          "default": "EF217D0C-9085-45D7-AAE0-2B36471B89B5",
+          "enum": [
+            "EF217D0C-9085-45D7-AAE0-2B36471B89B5"
+          ],
+          "normName": "operationId"
+        }
+      ],
+      "normQueryParametersName": "SpeakerRecognitionGetOperationStatusGetQueryParameters",
+      "normHeaderParametersName": "SpeakerRecognitionGetOperationStatusGetHeaderParameters",
+      "normPathParametersName": "SpeakerRecognitionGetOperationStatusGetPathParameters",
+      "params": "queryParams: SpeakerRecognitionGetOperationStatusGetQueryParameters, headerParams: SpeakerRecognitionGetOperationStatusGetHeaderParameters, pathParams: SpeakerRecognitionGetOperationStatusGetPathParameters"
+    },
+    {
+      "normName": "verificationPhraseListAllSupportedVerificationPhrasesGet",
+      "normNameCap": "VerificationPhraseListAllSupportedVerificationPhrasesGet",
+      "responseTypeName": "VerificationPhraseListAllSupportedVerificationPhrasesGetResult",
+      "responseType": "any[]",
+      "description": "Returns the list of supported verification phrases that can be used for Verification Profile - Create Enrollment and Speaker Recognition - Verification.",
+      "path": "/verificationPhrases",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "locale",
+          "in": "query",
+          "description": "Locale for the language when retrieving verification phrases.",
+          "required": true,
+          "type": "string",
+          "default": "en-US",
+          "enum": [
+            "en-US"
+          ],
+          "normName": "locale"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "VerificationPhraseListAllSupportedVerificationPhrasesGetQueryParameters",
+      "normHeaderParametersName": "VerificationPhraseListAllSupportedVerificationPhrasesGetHeaderParameters",
+      "normPathParametersName": "VerificationPhraseListAllSupportedVerificationPhrasesGetPathParameters",
+      "params": "queryParams: VerificationPhraseListAllSupportedVerificationPhrasesGetQueryParameters, headerParams: VerificationPhraseListAllSupportedVerificationPhrasesGetHeaderParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}

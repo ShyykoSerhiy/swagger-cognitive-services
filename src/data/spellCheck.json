@@ -1,0 +1,182 @@
+{
+  "name": "SpellCheck",
+  "url": "https://api.cognitive.microsoft.com/bing/v5.0/spellcheck",
+  "methods": [
+    {
+      "normName": "spellCheckPost",
+      "normNameCap": "SpellCheckPost",
+      "responseTypeName": "SpellCheckPostResult",
+      "responseType": "{ \"_type\": string; \"flaggedTokens\": { \"offset\": number; \"token\": string; \"type\": string; \"suggestions\": { \"suggestion\": string; \"score\": number; }[]; }[]; }",
+      "description": "",
+      "path": "/",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "mode",
+          "in": "query",
+          "description": "Mode of spellcheck:\n<ul><li>Proof - Meant to provide Office Word like spelling corrections. It can correct long queries, provide casing corrections and suppresses aggressive corrections.</li>\n<li>Spell - Meant to provide Search engine like spelling corrections. It will correct small queries(up to length 9 tokens) without any casing changes and will be more optimized (perf and relevance) towards search like queries.</li></ul>\n",
+          "type": "string",
+          "enum": [
+            "spell",
+            "proof"
+          ],
+          "normName": "mode"
+        },
+        {
+          "name": "mkt",
+          "in": "query",
+          "description": "For proof mode, only support en-us, es-es, pt-br,\nFor spell mode, support all language codes.",
+          "type": "string",
+          "enum": [
+            "en-us",
+            "es-es",
+            "pt-br"
+          ],
+          "normName": "mkt"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "SpellCheckPostQueryParameters",
+      "normHeaderParametersName": "SpellCheckPostHeaderParameters",
+      "normPathParametersName": "SpellCheckPostPathParameters",
+      "params": "queryParams: SpellCheckPostQueryParameters, headerParams: SpellCheckPostHeaderParameters"
+    },
+    {
+      "normName": "spellCheckGet",
+      "normNameCap": "SpellCheckGet",
+      "responseTypeName": "SpellCheckGetResult",
+      "responseType": "{ \"_type\": string; \"flaggedTokens\": { \"offset\": number; \"token\": string; \"type\": string; \"suggestions\": { \"suggestion\": string; \"score\": number; }[]; }[]; }",
+      "description": "",
+      "path": "/",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "mode",
+          "in": "query",
+          "description": "Mode of spellcheck:\n<ul><li>Proof - Meant to provide Office Word like spelling corrections. It can correct long queries, provide casing corrections and suppresses aggressive corrections.</li>\n<li>Spell - Meant to provide Search engine like spelling corrections. It will correct small queries(up to length 9 tokens) without any casing changes and will be more optimized (perf and relevance) towards search like queries.</li></ul>\n",
+          "type": "string",
+          "enum": [
+            "spell",
+            "proof"
+          ],
+          "normName": "mode"
+        },
+        {
+          "name": "text",
+          "in": "query",
+          "description": "The text string to check for spelling and grammar errors.",
+          "required": true,
+          "type": "string",
+          "default": "Bill Gatas",
+          "enum": [
+            "Bill Gatas"
+          ],
+          "normName": "text"
+        },
+        {
+          "name": "preContextText",
+          "in": "query",
+          "description": "A string that gives context to the text string. For example, the text string petal is valid; however, if you set preContextText to bike, the context changes and the text string becomes not valid. In this case, the API will suggest that you change petal to pedal (as in bike pedal).",
+          "type": "string",
+          "normName": "preContextText"
+        },
+        {
+          "name": "postContextText",
+          "in": "query",
+          "description": "A string that gives context to the text string. For example, the text string read is valid; however, if you set postContextText to carpet, the context changes and the text string becomes not valid. In this case, the API will suggest that you change read to red (as in red carpet).",
+          "type": "string",
+          "normName": "postContextText"
+        },
+        {
+          "name": "mkt",
+          "in": "query",
+          "description": "For proof mode, only support en-us, es-es, pt-br,\nFor spell mode, support all language codes.",
+          "type": "string",
+          "enum": [
+            "en-us",
+            "es-es",
+            "pt-br"
+          ],
+          "normName": "mkt"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "SpellCheckGetQueryParameters",
+      "normHeaderParametersName": "SpellCheckGetHeaderParameters",
+      "normPathParametersName": "SpellCheckGetPathParameters",
+      "params": "queryParams: SpellCheckGetQueryParameters, headerParams: SpellCheckGetHeaderParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "mode",
+      "in": "query",
+      "description": "Mode of spellcheck:\n<ul><li>Proof - Meant to provide Office Word like spelling corrections. It can correct long queries, provide casing corrections and suppresses aggressive corrections.</li>\n<li>Spell - Meant to provide Search engine like spelling corrections. It will correct small queries(up to length 9 tokens) without any casing changes and will be more optimized (perf and relevance) towards search like queries.</li></ul>\n",
+      "type": "string",
+      "enum": [
+        "spell",
+        "proof"
+      ],
+      "normName": "mode"
+    },
+    {
+      "name": "mkt",
+      "in": "query",
+      "description": "For proof mode, only support en-us, es-es, pt-br,\nFor spell mode, support all language codes.",
+      "type": "string",
+      "enum": [
+        "en-us",
+        "es-es",
+        "pt-br"
+      ],
+      "normName": "mkt"
+    },
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}

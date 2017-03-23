@@ -1,0 +1,21 @@
+{
+  "name": "swagger-cognitive-sevices",
+  "version": "0.0.1",
+  "description": "Unofficial typescript API for Microsoft Cognitive Services based on swagger api definitions.",
+  "main": "./dist/index.js",
+  "typings": "./dist/index",
+  "license": "MIT",
+  "author": "Shyyko Serhiy <shyyko.serhiy@gmail.com>",
+  "scripts": {
+    "recompile": "tsc && node ./dist/dataGenerator.js && node ./dist/apiGenerator.js && tsc"
+  },
+  "dependencies": {
+    "@types/cheerio": "^0.22.0",
+    "@types/handlebars": "^4.0.32",
+    "@types/superagent": "^2.0.36",
+    "cheerio": "^0.22.0",
+    "handlebars": "^4.0.6",
+    "superagent": "^3.5.0",
+    "typescript": "^2.2.1"
+  }
+}

@@ -1,0 +1,1271 @@
+{
+  "name": "Face",
+  "url": "https://westus.api.cognitive.microsoft.com/face/v1.0",
+  "methods": [
+    {
+      "normName": "faceDetectPost",
+      "normNameCap": "FaceDetectPost",
+      "responseTypeName": "FaceDetectPostResult",
+      "responseType": "{ \"faceId\": string; \"faceRectangle\": { \"width\": number; \"height\": number; \"left\": number; \"top\": number; }; \"faceLandmarks\": { \"pupilLeft\": { \"x\": number; \"y\": number; }; \"pupilRight\": { \"x\": number; \"y\": number; }; \"noseTip\": { \"x\": number; \"y\": number; }; \"mouthLeft\": { \"x\": number; \"y\": number; }; \"mouthRight\": { \"x\": number; \"y\": number; }; \"eyebrowLeftOuter\": { \"x\": number; \"y\": number; }; \"eyebrowLeftInner\": { \"x\": number; \"y\": number; }; \"eyeLeftOuter\": { \"x\": number; \"y\": number; }; \"eyeLeftTop\": { \"x\": number; \"y\": number; }; \"eyeLeftBottom\": { \"x\": number; \"y\": number; }; \"eyeLeftInner\": { \"x\": number; \"y\": number; }; \"eyebrowRightInner\": { \"x\": number; \"y\": number; }; \"eyebrowRightOuter\": { \"x\": number; \"y\": number; }; \"eyeRightInner\": { \"x\": number; \"y\": number; }; \"eyeRightTop\": { \"x\": number; \"y\": number; }; \"eyeRightBottom\": { \"x\": number; \"y\": number; }; \"eyeRightOuter\": { \"x\": number; \"y\": number; }; \"noseRootLeft\": { \"x\": number; \"y\": number; }; \"noseRootRight\": { \"x\": number; \"y\": number; }; \"noseLeftAlarTop\": { \"x\": number; \"y\": number; }; \"noseRightAlarTop\": { \"x\": number; \"y\": number; }; \"noseLeftAlarOutTip\": { \"x\": number; \"y\": number; }; \"noseRightAlarOutTip\": { \"x\": number; \"y\": number; }; \"upperLipTop\": { \"x\": number; \"y\": number; }; \"upperLipBottom\": { \"x\": number; \"y\": number; }; \"underLipTop\": { \"x\": number; \"y\": number; }; \"underLipBottom\": { \"x\": number; \"y\": number; }; }; \"faceAttributes\": { \"age\": number; \"gender\": string; \"smile\": number; \"facialHair\": { \"mustache\": number; \"beard\": number; \"sideburns\": number; }; }; \"glasses\": string; \"headPose\": { \"roll\": number; \"yaw\": number; \"pitch\": number; }; }[]",
+      "description": "Detect human faces in an image and returns face locations, and optionally with faceIds, landmarks, and attributes.\r\n\r\n\r\nOptional parameters for returning faceId, landmarks, and attributes. Attributes include age, gender, smile intensity, facial hair, head pose and glasses. faceId is for other APIs use including\r\nFace - Identify,\r\nFace - Verify, and\r\nFace - Find Similar.\r\nThe faceId will expire in 24 hours after detection call.\r\n\r\nJPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be larger than or equal to 1KB but no larger than 4MB.\r\nThe detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.\r\nA maximum of 64 faces could be returned for an image. The returned faces are ranked by face rectangle size in descending order.\r\nSome faces may not be detected for technical challenges, e.g. very large face angles (head-pose) or large occlusion. Frontal and near-frontal faces have the best results.\r\nAttributes (age, gender, headPose, smile, facialHair, and glasses) are still experimental and may not be very accurate. HeadPose's pitch value is a reserved field and will always return 0.\r\n\r\n\r\n\r\nHttp Method\r\nPOST",
+      "path": "/detect",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "returnFaceId",
+          "in": "query",
+          "description": "Return faceIds of the detected faces or not. The default value is true. ",
+          "type": "boolean",
+          "default": "true",
+          "enum": [
+            "false",
+            "true"
+          ],
+          "normName": "returnFaceId"
+        },
+        {
+          "name": "returnFaceLandmarks",
+          "in": "query",
+          "description": "Return face landmarks of the detected faces or not. The default value is false. ",
+          "type": "boolean",
+          "default": "false",
+          "enum": [
+            "false",
+            "true"
+          ],
+          "normName": "returnFaceLandmarks"
+        },
+        {
+          "name": "returnFaceAttributes",
+          "in": "query",
+          "description": "Analyze and return the one or more specified face attributes in the comma-separated string like \"returnFaceAttributes=age,gender\". Supported face attributes include age, gender, headPose, smile, facialHair, and glasses. Note that each face attribute analysis has additional computational and time cost.",
+          "type": "string",
+          "normName": "returnFaceAttributes"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceDetectPostQueryParameters",
+      "normHeaderParametersName": "FaceDetectPostHeaderParameters",
+      "normPathParametersName": "FaceDetectPostPathParameters",
+      "params": "queryParams: FaceDetectPostQueryParameters, headerParams: FaceDetectPostHeaderParameters"
+    },
+    {
+      "normName": "faceFindSimilarPost",
+      "normNameCap": "FaceFindSimilarPost",
+      "responseTypeName": "FaceFindSimilarPostResult",
+      "responseType": "any[]",
+      "description": "\r\n\r\nGiven query face's faceId, to search the similar-looking faces from a faceId array or a faceListId. faceId array contains the faces created by Face - Detect, which will expire in 24 hours after creation. While \"faceListId\" is created by Face List - Create a Face List containing persistedFaceIds that will not expire. Depending on the input the returned similar faces list contains faceIds or persistedFaceIds ranked by similarity.\r\n\r\n\r\nFind similar has two working modes, \"matchPerson\" and \"matchFace\". \"matchPerson\" is the default mode that it tries to find faces of the same person as possible by using internal same-person thresholds. It is useful to find a known person's other photos. Note that an empty list will be returned if no faces pass the internal thresholds.\r\n\"matchFace\" mode ignores same-person thresholds and returns ranked similar faces anyway, even the similarity is low. It can be used in the cases like searching celebrity-looking faces.\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/findsimilars",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceFindSimilarPostQueryParameters",
+      "normHeaderParametersName": "FaceFindSimilarPostHeaderParameters",
+      "normPathParametersName": "FaceFindSimilarPostPathParameters",
+      "params": "queryParams: FaceFindSimilarPostQueryParameters, headerParams: FaceFindSimilarPostHeaderParameters"
+    },
+    {
+      "normName": "faceGroupPost",
+      "normNameCap": "FaceGroupPost",
+      "responseTypeName": "FaceGroupPostResult",
+      "responseType": "{ \"groups\": string[][]; \"messyGroup\": string[]; }",
+      "description": "\r\nDivide candidate faces into groups based on face similarity.\r\n\r\n\r\nThe output is one or more disjointed face groups and a messyGroup. A face group contains faces\r\nthat have similar looking, often of the same person. Face groups are ranked by\r\ngroup size, i.e. number of faces. Notice that faces belonging to a same person might be split into several groups in the result.\r\n\r\nMessyGroup is a special face group containing faces that cannot find any similar counterpart face from original faces. The messyGroup will not appear in the result if all faces\r\nfound their counterparts.\r\nGroup API needs at least 2 candidate faces and 1000 at most. We suggest to try Face - Verify when you only have 2 candidate faces.\r\n\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/group",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceGroupPostQueryParameters",
+      "normHeaderParametersName": "FaceGroupPostHeaderParameters",
+      "normPathParametersName": "FaceGroupPostPathParameters",
+      "params": "queryParams: FaceGroupPostQueryParameters, headerParams: FaceGroupPostHeaderParameters"
+    },
+    {
+      "normName": "faceIdentifyPost",
+      "normNameCap": "FaceIdentifyPost",
+      "responseTypeName": "FaceIdentifyPostResult",
+      "responseType": "{ [x: string]: any; }",
+      "description": "\r\nIdentify unknown faces from a person group.\r\n\r\nFor each face in the faceIds array,\r\nFace Identify will compute similarities between the query face and all the faces in the person group (given by personGroupId),\r\nand returns candidate person(s) for that face ranked by similarity confidence.\r\nThe person group should be trained to make it ready for identification. See more in Person Group - Train Person Group.\r\n\r\nRemarks:\r\n\r\nThe algorithm allows more than one face to be identified independently at the same request, but the no more than 10 faces.\r\nEach person in the person group could have more than one face, but no more than 248 faces.\r\nIdentification works well for frontal faces and near-frontal faces.\r\nNumber of candidates returned is restricted by maxNumOfCandidatesReturned and confidenceThreshold. If no person is identified, the candidate returned will be an empty array.\r\nTry Face - Find Similar when you need to identify similar faces from a face list instead of a person group.\r\n\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/identify",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceIdentifyPostQueryParameters",
+      "normHeaderParametersName": "FaceIdentifyPostHeaderParameters",
+      "normPathParametersName": "FaceIdentifyPostPathParameters",
+      "params": "queryParams: FaceIdentifyPostQueryParameters, headerParams: FaceIdentifyPostHeaderParameters"
+    },
+    {
+      "normName": "faceVerifyPost",
+      "normNameCap": "FaceVerifyPost",
+      "responseTypeName": "FaceVerifyPostResult",
+      "responseType": "{ \"isIdentical\": boolean; \"confidence\": number; }",
+      "description": "\r\nVerify whether two faces belong to a same person or whether one face belongs to a person.\r\n\r\nRemarks:\r\n\r\nThis API works well for frontal and near-frontal faces. \r\nFor the scenarios that are sensitive to accuracy please make your own judgment.\r\n\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/verify",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceVerifyPostQueryParameters",
+      "normHeaderParametersName": "FaceVerifyPostHeaderParameters",
+      "normPathParametersName": "FaceVerifyPostPathParameters",
+      "params": "queryParams: FaceVerifyPostQueryParameters, headerParams: FaceVerifyPostHeaderParameters"
+    },
+    {
+      "normName": "personAddAPersonFacePost",
+      "normNameCap": "PersonAddAPersonFacePost",
+      "responseTypeName": "PersonAddAPersonFacePostResult",
+      "responseType": "{ \"persistedFaceId\": string; }",
+      "description": "Add a representative face to a person for identification. The input face is specified as an image with a targetFace rectangle.\r\nIt returns a persistedFaceId representing the added face and this persistedFaceId will not expire. Note persistedFaceId is different from faceId which represents the detected face by Face - Detect.\r\n\r\nThe persistedFaceId of person is used in Person - Delete a Person Face to remove a face from a person. \r\nEach person has a maximum of 248 faces.\r\nJPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be larger than or equal to 1KB but no larger than 4MB.\r\nThe detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.\r\nRectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.\r\nThe given rectangle specifies both face location and face size at the same time. There is no guarantee of correct result if you are using rectangle which is not returned from Face - Detect.  \r\n\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}/persistedFaces",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "userData",
+          "in": "query",
+          "description": "User-specified data about the target face to add for any purpose. The maximum length is 1KB. ",
+          "type": "string",
+          "normName": "userData"
+        },
+        {
+          "name": "targetFace",
+          "in": "query",
+          "description": "A face rectangle to specify the target face to be added to a person, in the format of \"targetFace=left,top,width,height\". E.g. \"targetFace=10,10,100,100\". If there is more than one face in the image, targetFace is required to specify which face to add. No targetFace means there is only one face detected in the entire image. ",
+          "type": "string",
+          "normName": "targetFace"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "Target person that the face is added to.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        }
+      ],
+      "normQueryParametersName": "PersonAddAPersonFacePostQueryParameters",
+      "normHeaderParametersName": "PersonAddAPersonFacePostHeaderParameters",
+      "normPathParametersName": "PersonAddAPersonFacePostPathParameters",
+      "params": "queryParams: PersonAddAPersonFacePostQueryParameters, headerParams: PersonAddAPersonFacePostHeaderParameters, pathParams: PersonAddAPersonFacePostPathParameters"
+    },
+    {
+      "normName": "personCreateAPersonPost",
+      "normNameCap": "PersonCreateAPersonPost",
+      "responseTypeName": "PersonCreateAPersonPostResult",
+      "responseType": "{ \"personId\": string; }",
+      "description": "\r\nCreate a new person in a specified person group. A newly created person have no registered face, you can call Person - Add a Person Face API to add faces to the person.\r\n\r\nThe number of persons has a subscription level limit and person group level limit. Person group level limit is 1000 for both free and paid tier subscriptions. Subscription level limit is 1000 for free tier subscription and can be greater in paid tier subscriptions.\r\nHttp Method\r\nPOST\r\n  \r\n\r\n",
+      "path": "/persongroups/{personGroupId}/persons",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the target person group to create the person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonCreateAPersonPostQueryParameters",
+      "normHeaderParametersName": "PersonCreateAPersonPostHeaderParameters",
+      "normPathParametersName": "PersonCreateAPersonPostPathParameters",
+      "params": "queryParams: PersonCreateAPersonPostQueryParameters, headerParams: PersonCreateAPersonPostHeaderParameters, pathParams: PersonCreateAPersonPostPathParameters"
+    },
+    {
+      "normName": "personListPersonsInAPersonGroupGet",
+      "normNameCap": "PersonListPersonsInAPersonGroupGet",
+      "responseTypeName": "PersonListPersonsInAPersonGroupGetResult",
+      "responseType": "{ \"personId\": string; \"name\": string; \"userData\": string; \"persistedFaceIds\": string[]; }[]",
+      "description": "\r\nList all persons in a person group, and retrieve person information (including personId, name, userData and persistedFaceIds of registered faces of the person).\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "personGroupId of the target person group.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonListPersonsInAPersonGroupGetQueryParameters",
+      "normHeaderParametersName": "PersonListPersonsInAPersonGroupGetHeaderParameters",
+      "normPathParametersName": "PersonListPersonsInAPersonGroupGetPathParameters",
+      "params": "queryParams: PersonListPersonsInAPersonGroupGetQueryParameters, headerParams: PersonListPersonsInAPersonGroupGetHeaderParameters, pathParams: PersonListPersonsInAPersonGroupGetPathParameters"
+    },
+    {
+      "normName": "personDeleteAPersonDelete",
+      "normNameCap": "PersonDeleteAPersonDelete",
+      "responseTypeName": "PersonDeleteAPersonDeleteResult",
+      "responseType": "{}",
+      "description": "\r\nDelete an existing person from a person group. Persisted face images of the person will also be deleted.\r\nHttp Method\r\nDELETE\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "The target personId to delete.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        }
+      ],
+      "normQueryParametersName": "PersonDeleteAPersonDeleteQueryParameters",
+      "normHeaderParametersName": "PersonDeleteAPersonDeleteHeaderParameters",
+      "normPathParametersName": "PersonDeleteAPersonDeletePathParameters",
+      "params": "queryParams: PersonDeleteAPersonDeleteQueryParameters, headerParams: PersonDeleteAPersonDeleteHeaderParameters, pathParams: PersonDeleteAPersonDeletePathParameters"
+    },
+    {
+      "normName": "personGetAPersonGet",
+      "normNameCap": "PersonGetAPersonGet",
+      "responseTypeName": "PersonGetAPersonGetResult",
+      "responseType": "{ \"personId\": string; \"persistedFaceIds\": string[]; \"name\": string; \"userData\": string; }",
+      "description": "\r\nRetrieve a person's information, including registered persisted faces, name and userData.\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "Specifying the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        }
+      ],
+      "normQueryParametersName": "PersonGetAPersonGetQueryParameters",
+      "normHeaderParametersName": "PersonGetAPersonGetHeaderParameters",
+      "normPathParametersName": "PersonGetAPersonGetPathParameters",
+      "params": "queryParams: PersonGetAPersonGetQueryParameters, headerParams: PersonGetAPersonGetHeaderParameters, pathParams: PersonGetAPersonGetPathParameters"
+    },
+    {
+      "normName": "personUpdateAPersonPatch",
+      "normNameCap": "PersonUpdateAPersonPatch",
+      "responseTypeName": "PersonUpdateAPersonPatchResult",
+      "responseType": "{}",
+      "description": "\r\nUpdate name or userData of a person.\r\nHttp Method\r\nPATCH\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}",
+      "method": "patch",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "personId of the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        }
+      ],
+      "normQueryParametersName": "PersonUpdateAPersonPatchQueryParameters",
+      "normHeaderParametersName": "PersonUpdateAPersonPatchHeaderParameters",
+      "normPathParametersName": "PersonUpdateAPersonPatchPathParameters",
+      "params": "queryParams: PersonUpdateAPersonPatchQueryParameters, headerParams: PersonUpdateAPersonPatchHeaderParameters, pathParams: PersonUpdateAPersonPatchPathParameters"
+    },
+    {
+      "normName": "personDeleteAPersonFaceDelete",
+      "normNameCap": "PersonDeleteAPersonFaceDelete",
+      "responseTypeName": "PersonDeleteAPersonFaceDeleteResult",
+      "responseType": "{}",
+      "description": "\r\nDelete a face from a person. Relative image for the persisted face will also be deleted.\r\nHttp Method\r\nDELETE\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}/persistedFaces/{persistedFaceId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "Specifying the person that the target persisted face belong to.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        },
+        {
+          "name": "persistedFaceId",
+          "in": "path",
+          "description": "The persisted face to remove. This persistedFaceId is returned from <a href=\"/docs/services/563879b61984550e40cbbe8d/operations/563879b61984550f3039523b\">Person - Add a Person Face</a>.",
+          "required": true,
+          "type": "string",
+          "normName": "persistedFaceId"
+        }
+      ],
+      "normQueryParametersName": "PersonDeleteAPersonFaceDeleteQueryParameters",
+      "normHeaderParametersName": "PersonDeleteAPersonFaceDeleteHeaderParameters",
+      "normPathParametersName": "PersonDeleteAPersonFaceDeletePathParameters",
+      "params": "queryParams: PersonDeleteAPersonFaceDeleteQueryParameters, headerParams: PersonDeleteAPersonFaceDeleteHeaderParameters, pathParams: PersonDeleteAPersonFaceDeletePathParameters"
+    },
+    {
+      "normName": "personGetAPersonFaceGet",
+      "normNameCap": "PersonGetAPersonFaceGet",
+      "responseTypeName": "PersonGetAPersonFaceGetResult",
+      "responseType": "{ \"persistedFaceId\": string; \"userData\": string; }",
+      "description": "\r\nRetrieve information about a persisted face (specified by persistedFaceId, personId and its belonging personGroupId).\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}/persistedFaces/{persistedFaceId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "Specifying the target person that the face belongs to.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        },
+        {
+          "name": "persistedFaceId",
+          "in": "path",
+          "description": "The persistedFaceId of the target persisted face of the person.",
+          "required": true,
+          "type": "string",
+          "normName": "persistedFaceId"
+        }
+      ],
+      "normQueryParametersName": "PersonGetAPersonFaceGetQueryParameters",
+      "normHeaderParametersName": "PersonGetAPersonFaceGetHeaderParameters",
+      "normPathParametersName": "PersonGetAPersonFaceGetPathParameters",
+      "params": "queryParams: PersonGetAPersonFaceGetQueryParameters, headerParams: PersonGetAPersonFaceGetHeaderParameters, pathParams: PersonGetAPersonFaceGetPathParameters"
+    },
+    {
+      "normName": "personUpdateAPersonFacePatch",
+      "normNameCap": "PersonUpdateAPersonFacePatch",
+      "responseTypeName": "PersonUpdateAPersonFacePatchResult",
+      "responseType": "{}",
+      "description": "\r\nUpdate a person persisted face's userData field.\r\nHttp Method\r\nPATCH\r\n  ",
+      "path": "/persongroups/{personGroupId}/persons/{personId}/persistedFaces/{persistedFaceId}",
+      "method": "patch",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Specifying the person group containing the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        },
+        {
+          "name": "personId",
+          "in": "path",
+          "description": "personId of the target person.",
+          "required": true,
+          "type": "string",
+          "normName": "personId"
+        },
+        {
+          "name": "persistedFaceId",
+          "in": "path",
+          "description": "persistedFaceId of target face, which is persisted and will not expire.",
+          "required": true,
+          "type": "string",
+          "normName": "persistedFaceId"
+        }
+      ],
+      "normQueryParametersName": "PersonUpdateAPersonFacePatchQueryParameters",
+      "normHeaderParametersName": "PersonUpdateAPersonFacePatchHeaderParameters",
+      "normPathParametersName": "PersonUpdateAPersonFacePatchPathParameters",
+      "params": "queryParams: PersonUpdateAPersonFacePatchQueryParameters, headerParams: PersonUpdateAPersonFacePatchHeaderParameters, pathParams: PersonUpdateAPersonFacePatchPathParameters"
+    },
+    {
+      "normName": "personGroupCreateAPersonGroupPut",
+      "normNameCap": "PersonGroupCreateAPersonGroupPut",
+      "responseTypeName": "PersonGroupCreateAPersonGroupPutResult",
+      "responseType": "{}",
+      "description": "\r\nCreate a new person group with specified personGroupId, name and user-provided userData.\r\n\r\nA person group is one of the most important parameters for the Face - Identify API. The Identify\r\nsearches person faces in a specified person group.\r\nHttp Method\r\nPUT\r\n  ",
+      "path": "/persongroups/{personGroupId}",
+      "method": "put",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "User-provided personGroupId as a string. The valid characters include numbers, English letters in lower case, '-' and '_'. The maximum length of the personGroupId is 64.\n        ",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupCreateAPersonGroupPutQueryParameters",
+      "normHeaderParametersName": "PersonGroupCreateAPersonGroupPutHeaderParameters",
+      "normPathParametersName": "PersonGroupCreateAPersonGroupPutPathParameters",
+      "params": "queryParams: PersonGroupCreateAPersonGroupPutQueryParameters, headerParams: PersonGroupCreateAPersonGroupPutHeaderParameters, pathParams: PersonGroupCreateAPersonGroupPutPathParameters"
+    },
+    {
+      "normName": "personGroupDeleteAPersonGroupDelete",
+      "normNameCap": "PersonGroupDeleteAPersonGroupDelete",
+      "responseTypeName": "PersonGroupDeleteAPersonGroupDeleteResult",
+      "responseType": "{}",
+      "description": "\r\nDelete an existing person group. Persisted face images of all people in the person group will also be deleted.\r\nHttp Method\r\nDELETE\r\n  ",
+      "path": "/persongroups/{personGroupId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "The personGroupId of the person group to be deleted.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupDeleteAPersonGroupDeleteQueryParameters",
+      "normHeaderParametersName": "PersonGroupDeleteAPersonGroupDeleteHeaderParameters",
+      "normPathParametersName": "PersonGroupDeleteAPersonGroupDeletePathParameters",
+      "params": "queryParams: PersonGroupDeleteAPersonGroupDeleteQueryParameters, headerParams: PersonGroupDeleteAPersonGroupDeleteHeaderParameters, pathParams: PersonGroupDeleteAPersonGroupDeletePathParameters"
+    },
+    {
+      "normName": "personGroupGetAPersonGroupGet",
+      "normNameCap": "PersonGroupGetAPersonGroupGet",
+      "responseTypeName": "PersonGroupGetAPersonGroupGetResult",
+      "responseType": "{ \"personGroupId\": string; \"name\": string; \"userData\": string; }",
+      "description": "\r\nRetrieve the information of a person group, including its name and userData. This API returns person group information only, use Person - List Persons in a Person Group instead to retrieve person information under the person group.\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups/{personGroupId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "personGroupId of the target person group.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupGetAPersonGroupGetQueryParameters",
+      "normHeaderParametersName": "PersonGroupGetAPersonGroupGetHeaderParameters",
+      "normPathParametersName": "PersonGroupGetAPersonGroupGetPathParameters",
+      "params": "queryParams: PersonGroupGetAPersonGroupGetQueryParameters, headerParams: PersonGroupGetAPersonGroupGetHeaderParameters, pathParams: PersonGroupGetAPersonGroupGetPathParameters"
+    },
+    {
+      "normName": "personGroupUpdateAPersonGroupPatch",
+      "normNameCap": "PersonGroupUpdateAPersonGroupPatch",
+      "responseTypeName": "PersonGroupUpdateAPersonGroupPatchResult",
+      "responseType": "{}",
+      "description": "\r\nUpdate an existing person group's display name and userData. The properties which does not appear in request body will not be updated.\r\nHttp Method\r\nPATCH\r\n  ",
+      "path": "/persongroups/{personGroupId}",
+      "method": "patch",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "personGroupId of the person group to be updated.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupUpdateAPersonGroupPatchQueryParameters",
+      "normHeaderParametersName": "PersonGroupUpdateAPersonGroupPatchHeaderParameters",
+      "normPathParametersName": "PersonGroupUpdateAPersonGroupPatchPathParameters",
+      "params": "queryParams: PersonGroupUpdateAPersonGroupPatchQueryParameters, headerParams: PersonGroupUpdateAPersonGroupPatchHeaderParameters, pathParams: PersonGroupUpdateAPersonGroupPatchPathParameters"
+    },
+    {
+      "normName": "personGroupGetPersonGroupTrainingStatusGet",
+      "normNameCap": "PersonGroupGetPersonGroupTrainingStatusGet",
+      "responseTypeName": "PersonGroupGetPersonGroupTrainingStatusGetResult",
+      "responseType": "{ \"status\": string; \"createdDateTime\": string; \"lastActionDateTime\": any; \"message\": any; }",
+      "description": "\r\nRetrieve the training status of a person group (completed or ongoing). Training can be triggered by the Person Group - Train Person Group API. The training will process for a while on the server side..\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups/{personGroupId}/training",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "personGroupId of target person group.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupGetPersonGroupTrainingStatusGetQueryParameters",
+      "normHeaderParametersName": "PersonGroupGetPersonGroupTrainingStatusGetHeaderParameters",
+      "normPathParametersName": "PersonGroupGetPersonGroupTrainingStatusGetPathParameters",
+      "params": "queryParams: PersonGroupGetPersonGroupTrainingStatusGetQueryParameters, headerParams: PersonGroupGetPersonGroupTrainingStatusGetHeaderParameters, pathParams: PersonGroupGetPersonGroupTrainingStatusGetPathParameters"
+    },
+    {
+      "normName": "personGroupListPersonGroupsGet",
+      "normNameCap": "PersonGroupListPersonGroupsGet",
+      "responseTypeName": "PersonGroupListPersonGroupsGetResult",
+      "responseType": "{ \"personGroupId\": string; \"name\": string; \"userData\": string; }[]",
+      "description": "\r\nList person groups and their information. \r\n\r\n\r\n\r\nOptional string parameter \"start\" and int parameter \"top\" are adopted to specify the starting point and total number of person groups to return. All of the person groups are stored in alphabetical order of personGroupId. And the list starting point is defined as the first person group whose personGroupId is greater than the \"start\". Beginning from this starting point, this API returns the first \"top\" person groups.\r\n\r\n\r\nDefaults to return the first 1000 person groups, where the value of \"start\" is empty and \"top\" is 1000. Empty array returned indicates that there is no person group whose personGroupId is lager than the \"start\". E.g., given two person groups: \"first_group\" and \"second_group\", these two groups are returned with default parameter, \"second_group\" is returned if specify \"first_group\" as \"start\", and if specify \"second_group\" as \"start\", empty array is returned.\r\n\r\n\r\nThe last personGroupId returned by current call can be used as the \"start\" of the next call to continuously list the person groups.\r\n\r\n\r\n\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/persongroups",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "start",
+          "in": "query",
+          "description": "List person groups from the least personGroupId greater than the \"start\". It contains no more than 64 characters. Default is empty. ",
+          "type": "string",
+          "enum": [
+            ""
+          ],
+          "normName": "start"
+        },
+        {
+          "name": "top",
+          "in": "query",
+          "description": "The number of person groups to list, ranging in [1, 1000]. Default is 1000. ",
+          "type": "number",
+          "default": "1000",
+          "enum": [
+            "1000"
+          ],
+          "normName": "top"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupListPersonGroupsGetQueryParameters",
+      "normHeaderParametersName": "PersonGroupListPersonGroupsGetHeaderParameters",
+      "normPathParametersName": "PersonGroupListPersonGroupsGetPathParameters",
+      "params": "queryParams: PersonGroupListPersonGroupsGetQueryParameters, headerParams: PersonGroupListPersonGroupsGetHeaderParameters"
+    },
+    {
+      "normName": "personGroupTrainPersonGroupPost",
+      "normNameCap": "PersonGroupTrainPersonGroupPost",
+      "responseTypeName": "PersonGroupTrainPersonGroupPostResult",
+      "responseType": "{}",
+      "description": "\r\nQueue a person group training task, the training task may not be started immediately.\r\n\r\nAny updates to person group will not take effect in Face - Identify until person group is successfully trained.\r\nYou can query the training status by calling Person Group - Get Person Group Training Status API.\r\nHttp Method\r\nPOST\r\n  ",
+      "path": "/persongroups/{personGroupId}/train",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "personGroupId",
+          "in": "path",
+          "description": "Target person group to be trained.",
+          "required": true,
+          "type": "string",
+          "normName": "personGroupId"
+        }
+      ],
+      "normQueryParametersName": "PersonGroupTrainPersonGroupPostQueryParameters",
+      "normHeaderParametersName": "PersonGroupTrainPersonGroupPostHeaderParameters",
+      "normPathParametersName": "PersonGroupTrainPersonGroupPostPathParameters",
+      "params": "queryParams: PersonGroupTrainPersonGroupPostQueryParameters, headerParams: PersonGroupTrainPersonGroupPostHeaderParameters, pathParams: PersonGroupTrainPersonGroupPostPathParameters"
+    },
+    {
+      "normName": "faceListCreateAFaceListPut",
+      "normNameCap": "FaceListCreateAFaceListPut",
+      "responseTypeName": "FaceListCreateAFaceListPutResult",
+      "responseType": "{}",
+      "description": "\r\nCreate an empty face list with user-specified faceListId, name and an optional userData. Up to 64 face lists are allowed to exist in one subscription.\r\n\r\nFace list is a group of faces, and these faces will not expire. Face list is used as a parameter of source faces in\r\nFace - Find Similar.\r\nFace List is useful when to find similar faces in a fixed face set very often, e.g. to find a similar face in a face list of celebrities, friends, or family members.\r\n\r\nA face list can have a maximum of 1000 faces.\r\nHttp Method\r\nPUT\r\n  ",
+      "path": "/facelists/{faceListId}",
+      "method": "put",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.\n        ",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        }
+      ],
+      "normQueryParametersName": "FaceListCreateAFaceListPutQueryParameters",
+      "normHeaderParametersName": "FaceListCreateAFaceListPutHeaderParameters",
+      "normPathParametersName": "FaceListCreateAFaceListPutPathParameters",
+      "params": "queryParams: FaceListCreateAFaceListPutQueryParameters, headerParams: FaceListCreateAFaceListPutHeaderParameters, pathParams: FaceListCreateAFaceListPutPathParameters"
+    },
+    {
+      "normName": "faceListGetAFaceListGet",
+      "normNameCap": "FaceListGetAFaceListGet",
+      "responseTypeName": "FaceListGetAFaceListGetResult",
+      "responseType": "{ \"faceListId\": string; \"name\": string; \"userData\": string; \"persistedFaces\": any[]; }",
+      "description": "\r\nRetrieve a face list's information, including faceListId, name, userData and faces in the face list. Face list simply represents a list of faces, and could be treated as a searchable data source in\r\nFace - Find Similar.\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/facelists/{faceListId}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        }
+      ],
+      "normQueryParametersName": "FaceListGetAFaceListGetQueryParameters",
+      "normHeaderParametersName": "FaceListGetAFaceListGetHeaderParameters",
+      "normPathParametersName": "FaceListGetAFaceListGetPathParameters",
+      "params": "queryParams: FaceListGetAFaceListGetQueryParameters, headerParams: FaceListGetAFaceListGetHeaderParameters, pathParams: FaceListGetAFaceListGetPathParameters"
+    },
+    {
+      "normName": "faceListUpdateAFaceListPatch",
+      "normNameCap": "FaceListUpdateAFaceListPatch",
+      "responseTypeName": "FaceListUpdateAFaceListPatchResult",
+      "responseType": "{}",
+      "description": "\r\nUpdate information of a face list, including name and userData. Face List simply represents a list of persisted faces, and could be treated as a searchable data source in\r\nFace - Find Similar.\r\nHttp Method\r\nPATCH\r\n  ",
+      "path": "/facelists/{faceListId}",
+      "method": "patch",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        }
+      ],
+      "normQueryParametersName": "FaceListUpdateAFaceListPatchQueryParameters",
+      "normHeaderParametersName": "FaceListUpdateAFaceListPatchHeaderParameters",
+      "normPathParametersName": "FaceListUpdateAFaceListPatchPathParameters",
+      "params": "queryParams: FaceListUpdateAFaceListPatchQueryParameters, headerParams: FaceListUpdateAFaceListPatchHeaderParameters, pathParams: FaceListUpdateAFaceListPatchPathParameters"
+    },
+    {
+      "normName": "faceListDeleteAFaceListDelete",
+      "normNameCap": "FaceListDeleteAFaceListDelete",
+      "responseTypeName": "FaceListDeleteAFaceListDeleteResult",
+      "responseType": "{}",
+      "description": "\r\nDelete an existing face list according to faceListId. Persisted face images in the face list will also be deleted.\r\nHttp Method\r\nDELETE\r\n  ",
+      "path": "/facelists/{faceListId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        }
+      ],
+      "normQueryParametersName": "FaceListDeleteAFaceListDeleteQueryParameters",
+      "normHeaderParametersName": "FaceListDeleteAFaceListDeleteHeaderParameters",
+      "normPathParametersName": "FaceListDeleteAFaceListDeletePathParameters",
+      "params": "queryParams: FaceListDeleteAFaceListDeleteQueryParameters, headerParams: FaceListDeleteAFaceListDeleteHeaderParameters, pathParams: FaceListDeleteAFaceListDeletePathParameters"
+    },
+    {
+      "normName": "faceListListFaceListsGet",
+      "normNameCap": "FaceListListFaceListsGet",
+      "responseTypeName": "FaceListListFaceListsGetResult",
+      "responseType": "any[]",
+      "description": "\r\nRetrieve information about all existing face lists. Only faceListId, name and userData will be returned. Try Face List - Get a Face List to retrieve face information inside faceList.\r\nHttp Method\r\nGET\r\n  ",
+      "path": "/facelists",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceListListFaceListsGetQueryParameters",
+      "normHeaderParametersName": "FaceListListFaceListsGetHeaderParameters",
+      "normPathParametersName": "FaceListListFaceListsGetPathParameters",
+      "params": "queryParams: FaceListListFaceListsGetQueryParameters, headerParams: FaceListListFaceListsGetHeaderParameters"
+    },
+    {
+      "normName": "faceListAddAFaceToAFaceListPost",
+      "normNameCap": "FaceListAddAFaceToAFaceListPost",
+      "responseTypeName": "FaceListAddAFaceToAFaceListPostResult",
+      "responseType": "{ \"persistedFaceId\": string; }",
+      "description": "Add a face to a face list. The input face is specified as an image with a targetFace rectangle.\r\nIt returns a persistedFaceId representing the added face, and persistedFaceId will not expire. Note persistedFaceId is different from faceId which represents the detected face by Face - Detect.\r\n\r\nThe persistedFaceId of face list is used in Face List - Delete a Face from a Face List to remove face from a face list, or the output JSON of\r\nFace - Find Similar \r\n\r\nJPEG, PNG, GIF(the first frame), and BMP are supported. The image file size should be larger than or equal to 1KB but no larger than 4MB.\r\nThe detectable face size is between 36x36 to 4096x4096 pixels. The faces out of this range will not be detected.\r\nRectangle specified by targetFace should contain exactly one face. Zero or multiple faces will be regarded as an error. Out of detectable face size, large head-pose, or very large occlusions will also result in fail to add a person face.\r\nThe given rectangle specifies both face location and face size at the same time. There is no guarantee of correct result if you are using rectangle which are not returned from Face - Detect.  \r\n\r\n\r\nFace list is a group of faces, and these faces will not expire. Face list is used as a parameter of source faces in\r\nFace - Find Similar.\r\nFace List is useful when to find similar faces in a fixed face set very often, e.g. to find a similar face in a face list of celebrities, friends, or family members.\r\n\r\nA face list can have a maximum of 1000 faces.\r\n\r\nHttp Method\r\nPOST",
+      "path": "/facelists/{faceListId}/persistedFaces",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "userData",
+          "in": "query",
+          "description": "User-specified data about the face list for any purpose. The  maximum length is 1KB.",
+          "type": "string",
+          "normName": "userData"
+        },
+        {
+          "name": "targetFace",
+          "in": "query",
+          "description": "A face rectangle to specify the target face to be added into the face list, in the format of \"targetFace=left,top,width,height\". E.g. \"targetFace=10,10,100,100\". If there is more than one face in the image, targetFace is required to specify which face to add. No targetFace means there is only one face detected in the entire image.",
+          "type": "string",
+          "normName": "targetFace"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        }
+      ],
+      "normQueryParametersName": "FaceListAddAFaceToAFaceListPostQueryParameters",
+      "normHeaderParametersName": "FaceListAddAFaceToAFaceListPostHeaderParameters",
+      "normPathParametersName": "FaceListAddAFaceToAFaceListPostPathParameters",
+      "params": "queryParams: FaceListAddAFaceToAFaceListPostQueryParameters, headerParams: FaceListAddAFaceToAFaceListPostHeaderParameters, pathParams: FaceListAddAFaceToAFaceListPostPathParameters"
+    },
+    {
+      "normName": "faceListDeleteAFaceFromAFaceListDelete",
+      "normNameCap": "FaceListDeleteAFaceFromAFaceListDelete",
+      "responseTypeName": "FaceListDeleteAFaceFromAFaceListDeleteResult",
+      "responseType": "{}",
+      "description": "\r\nDelete an existing face from a face list (given by a persisitedFaceId and a faceListId). Persisted image related to the face will also be deleted.\r\nHttp Method\r\nDELETE\r\n  ",
+      "path": "/facelists/{faceListId}/persistedFaces/{persistedFaceId}",
+      "method": "delete",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "faceListId",
+          "in": "path",
+          "description": "faceListId of an existing face list. Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "faceListId"
+        },
+        {
+          "name": "persistedFaceId",
+          "in": "path",
+          "description": "persistedFaceId of an existing face. Valid character is letter in lower case or digit or '-' or '_', maximum length is 64.",
+          "required": true,
+          "type": "string",
+          "normName": "persistedFaceId"
+        }
+      ],
+      "normQueryParametersName": "FaceListDeleteAFaceFromAFaceListDeleteQueryParameters",
+      "normHeaderParametersName": "FaceListDeleteAFaceFromAFaceListDeleteHeaderParameters",
+      "normPathParametersName": "FaceListDeleteAFaceFromAFaceListDeletePathParameters",
+      "params": "queryParams: FaceListDeleteAFaceFromAFaceListDeleteQueryParameters, headerParams: FaceListDeleteAFaceFromAFaceListDeleteHeaderParameters, pathParams: FaceListDeleteAFaceFromAFaceListDeletePathParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}

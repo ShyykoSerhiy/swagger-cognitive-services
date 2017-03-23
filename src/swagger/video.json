@@ -1,0 +1,540 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Video API",
+    "version": "1.0",
+    "description": "Welcome to the Microsoft Project Oxford Video API. Video API is a cloud-based API that provides advanced algorithms for tracking faces, detecting motion, and stabilizing video. These APIs allow you to build more personalized and intelligent apps by understanding and automatically transforming your video content. "
+  },
+  "host": "westus.api.cognitive.microsoft.com",
+  "basePath": "/video/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/stabilize": {
+      "post": {
+        "description": "<p>Smooths and stabilizes a video.  <br/>&bull;  The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. <br/>&bull;  Stabilization is optimized for small camera motions, with or without rolling shutter effects (e.g. holding a static camera, and walking with a slow speed). <br/>&bull;  Both width and height of the input video must be even numbers. <br/>&bull;  The resolution of the input video should be less than or equal to 2160P (4K, 3840 X 2160). <br/>&bull; Output files are deleted after 24 hours.</p>",
+        "operationId": "Stabilization",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "202": {
+            "description": "The service has accepted the request and will start the process later.<br/>\r\nIn the response, there is a <b>\"Operation-Location\"</b> header. Client side should further query the operation status from the URL specified in this header.\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td><b>Operation-Location</b></td><td>Client side should use this URL to query video operation status/result. <br/> Example: https://api.projectoxford.ai/video/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n.</td></tr>\r\n             </tbody>\r\n</table>"
+          },
+          "400": {
+            "description": " Error code and message returned in JSON:\r\n      <table class=\"element table\">\r\n      <thead>\r\n      <tr><th>Error Code</th><th>Description</th></tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr><td>InvalidVideoSize</td><td>Video size is too small or too big.</td></tr>\r\n      <tr><td>BadArgument</td><td>Failed to deserialize JSON request.</td></tr>          </tbody>\r\n      </table>",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InvalidVideoSize",
+                  "message": "Video size is too small or too big."
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "When Content-Type is not application/json or application/octet-stream."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "applicaiton/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "applicaiton/json"
+        ]
+      }
+    },
+    "/operations/{oid}": {
+      "get": {
+        "description": "Get operation result. If succeeded, this interface returns a JSON that includes time stamps and operation status. Below is an example:\r\n\r\nExample JSON:\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr>\r\n{<br/>\r\n\t\"status\": \"Running\",<br/>\r\n\t\"createdDateTime\":  \"2015-09-30T01:28:23.4493273Z\",<br/>\r\n\t\"lastActionDateTime\": \"2015-09-30T01:32:23.0895791Z\",<br/>\r\n}<br/>\r\n             </tr>\r\n            </tbody>\r\n</table>\r\n<br/>\r\n<p>\r\nPossible values of \"status\" field are:<br/>\r\n<b>Not Started</b> - video content is received/uploaded but the process has not started.<br/>\r\n<b>Uploading</b> - the video content is being uploaded by the URL client side provides.<br/>\r\n<b>Running</b> - the process is running.<br/>\r\n<b>Failed</b> - the process is failed. Detailed information will be provided in \"message\" field.<br/>\r\n<b>Succeeded</b> - the process succeeded. In this case, depending on specific operation client side created, the result can be retrieved in following two ways:<br/>\r\n</p>\r\n<table class=\"element table\">\r\n            <thead>\r\n            <tr><th>Video Operation</th><th>How to Retrieve Result</th></tr>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td>Stabilization</td><td>The result (as a video file) can be retrieved from the URL specified in <b>resourceLocation</b> field.</td></tr>\r\n            <tr><td>Face Detection and Tracking<br/>Motion Detection \r\n</td><td>The result (as a JSON in string) is available in <b>processingResult</b> field.</td></tr>\r\n             </tbody>\r\n</table>",
+        "operationId": "Get Operation Result",
+        "parameters": [
+          {
+            "name": "oid",
+            "in": "path",
+            "description": "OperationId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The operation result/status as JSON.",
+            "examples": {
+              "application/json": {
+                "status": "running",
+                "createdDateTime": "2015-09-30T01:28:23Z",
+                "lastActionDateTime": "2015-09-30T01:32:23Z"
+              }
+            }
+          },
+          "400": {
+            "description": "The operation ID is not specified."
+          },
+          "404": {
+            "description": "The operation with given operation ID not found."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/trackface": {
+      "post": {
+        "description": "<p>Detects and tracks human faces in a video and returns face locations. <br/>&bull; The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. <br/>&bull; The detectable face size range is 24x24 to 2048x2048 pixels. The faces out of this range will not be detected. <br/>&bull; For each video, the maximum number of faces returned is 64. <br/>&bull; Some faces may not be detected due to technical challenges; e.g. very large face angles (head-pose), and large occlusion. Frontal and near-frontal faces have the best results. <br/>&bull; Output files are deleted after 24 hours.\r\n</p>",
+        "operationId": "Face Detection and Tracking",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "202": {
+            "description": "The service has accepted the request and will start the process later.<br/>\r\nIn the response, there is a <b>\"Operation-Location\"</b> header. Client side should further query the operation status from the URL specified in this header.\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td><b>Operation-Location</b></td><td>Client side should use this URL to query video operation status/result. <br/> Example: https://api.projectoxford.ai/video/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n.</td></tr>\r\n             </tbody>\r\n</table>"
+          },
+          "400": {
+            "description": " Error code and message returned in JSON:\r\n      <table class=\"element table\">\r\n      <thead>\r\n      <tr><th>Error Code</th><th>Description</th></tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr><td>InvalidVideoSize</td><td>Video size is too small or too big.</td></tr>\r\n      <tr><td>BadArgument</td><td>Failed to deserialize JSON request.</td></tr>          </tbody>\r\n      </table>",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InvalidVideoSize",
+                  "message": "Video size is too small or too big."
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "When Content-Type is not application/json or application/octet-stream."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/detectmotion": {
+      "post": {
+        "description": "<p>Detects motion in a video, and returns the frame and duration of the motion that was captured. <br/>&bull; The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. <br/>&bull; User can input detection zones to set up as areas to detect motion. <br/>&bull; User can specify motion sensitivity: high, medium, and low. Higher sensitivity means more motions will be detected at a cost that more false alarms will be reported.<br/>&bull; Motion Detection is optimized for stationary background videos. <br/>&bull; User can specify whether light change events should be detected. A light change refers to a change in the frame that was caused by a light turning off and on. Some developers do not want to detect this, as they consider it a false alarm. Other developers want to make sure they capture any change, light changes included.<br/>&bull; User can specify whether successive motions should be merged together by passing in a parameter (mergeTimeThreshold) For example, if a motion happens from 1 to 4 seconds and the next motion happens from 5 to 10 seconds, some developers will want to count that as one instance of motion.<br/>&bull; User can specify which frames to be detected by passing in a parameter (frameSamplingValue).<br/>&bull; Some motion may not be detected due to technical challenges; e.g. semi-transparent objects, and some small objects. <br/>&bull; Output files are deleted after 24 hours.\r\n</p>",
+        "operationId": "Motion Detection",
+        "parameters": [
+          {
+            "name": "sensitivityLevel",
+            "in": "query",
+            "description": "Specify the detection sensitivity level: “low”, “medium”, “high”. Higher sensitivity means more motions will be detected at a cost that more false alarms will be reported. The default value is “medium”.",
+            "type": "string"
+          },
+          {
+            "name": "frameSamplingValue",
+            "in": "query",
+            "description": "User may skip frames by setting this parameter. It can be used as a tradeoff between performance and cost, skipping frames may reduce processing time but result in worse detection performance. The default value is 1, meaning detecting motion for every frame. If set to 2, then the algorithm will detect one frame for every two frames. The upper bound is 20.",
+            "type": "number"
+          },
+          {
+            "name": "detectionZones",
+            "in": "query",
+            "description": "User can setup detection zones by passing in a string like “detectionZones=0,0;0.5,0;1,0;1,0.5;1,1;0.5,1;0,1;0,0.5 |0.3,0.3;0.55,0.3;0.8,0.3; 0.8,0.55;0.8,0.8;0.55,0.8;0.3,0.8;0.3,0.55;| 0,0;1,0;1,1;0,1”, each detection zone is separated by a “|” and each point is defined by a “x,y” pair and separated by a “;”. At most 8 detection zones are supported and each detection zone should be defined by at least 3 points and no more than 16 points. The default setting is “detectionZones=0,0;0.5,0;1,0;1,0.5;1,1;0.5,1;0,1;0,0.5”, i.e. the whole frame defined by an 8-point polygon.",
+            "type": "string"
+          },
+          {
+            "name": "detectLightChange",
+            "in": "query",
+            "description": "Specify whether light change events should be detected. The default value is false.",
+            "type": "boolean"
+          },
+          {
+            "name": "mergeTimeThreshold",
+            "in": "query",
+            "description": "Specify the threshold on whether successive motions should be merged together, if the interval between successive motions is <= mergeTimeThreshold, they will be merged. The default value is 0.0 and upper bound is 10.0.",
+            "type": "number"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "202": {
+            "description": "The service has accepted the request and will start the process later.<br/>\r\nIn the response, there is a <b>\"Operation-Location\"</b> header. Client side should further query the operation status from the URL specified in this header.\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td><b>Operation-Location</b></td><td>Client side should use this URL to query video operation status/result. <br/> Example: https://api.projectoxford.ai/video/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n.</td></tr>\r\n             </tbody>\r\n</table>"
+          },
+          "400": {
+            "description": " Error code and message returned in JSON:\r\n      <table class=\"element table\">\r\n      <thead>\r\n      <tr><th>Error Code</th><th>Description</th></tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr><td>InvalidVideoSize</td><td>Video size is too small or too big.</td></tr>\r\n      <tr><td>BadArgument</td><td>Failed to deserialize JSON request.</td></tr>          </tbody>\r\n      </table>",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InvalidVideoSize",
+                  "message": "Video size is too small or too big."
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "When Content-Type is not application/json or application/octet-stream."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/operations/{oid}/content": {
+      "get": {
+        "description": "This interface is used for getting result video content. Currently only Stabilization outputs video content as result. The URL to this interface should be retrieved from <b>resourceLocation</b> field of JSON returned from Get Operation Result interface.",
+        "operationId": "Get Result Video",
+        "parameters": [
+          {
+            "name": "oid",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The result video as binary data.",
+            "examples": {
+              "application/octet-stream": "[Binary Data]"
+            }
+          },
+          "400": {
+            "description": "The operation ID is not specified."
+          },
+          "404": {
+            "description": "The video result with given operation ID not found."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "applicaiton/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/octet-stream",
+          "application/json",
+          "applicaiton/json"
+        ]
+      }
+    },
+    "/generatethumbnail": {
+      "post": {
+        "description": "Generates a motion thumbnail from a video. The Video Thumbnail API provides an automatic summary for videos to let people see a preview or snapshot quickly. Selection of scenes from a video create a preview in form of a short video. <br/>\r\n&bull; The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. <br/>\r\n&bull; The number of scenes displayed in the thumbnail is either chosen by the user or defaults to the optimal duration supported by the Video API’s algorithm.<br/>\r\n&bull; A scene is a collection of indexed frames. Scenes are mapped according to sequence in video. <br/>\r\n&bull; Fade in/fade out effects are included in the thumbnail by default, but can be turned off by the user. <br/>\r\n&bull; Audio is included by default, but can be turned off by the user. Pauses in audio are detected to divide video into coherent scenes and avoid breaking sentences of speech.<br/>\r\n&bull; Output files are deleted after 24 hours.<br/>\r\n<br/>\r\n* Optimal Duration of Video Thumbnail Supported by Video API shown in table below.\r\n\r\n<table class=\"element table\">\r\n<thead>\r\n</thead>\r\n<tbody>\r\n<tr>\r\n<td>Motion Thumbnail</td>\r\n</tr>\r\n<tr>\r\n<td>Video duration (d)</td>\r\n<td>d < 3min</td>\r\n<td>3min < d < 15min</td>\r\n<td>15min < d < 30min</td>\r\n<td>30min < d</td>\r\n</tr>\r\n<tr>\r\n<td>Thumbnail duration</td>\r\n<td>15sec (2-3 scenes)</td>\r\n<td>30sec (3-5 scenes)</td>\r\n<td>60sec (5-10 scenes)</td>\r\n<td>90sec (10-15 scenes)</td>\r\n</tr>\r\n<tbody>\r\n</table>",
+        "operationId": "Thumbnail",
+        "parameters": [
+          {
+            "name": "maxMotionThumbnailDurationInSecs",
+            "in": "query",
+            "description": "Specifies maximum duration of output video (in seconds). The default value is 0, which indicates the duration will be automatically decided by the algorithm.",
+            "type": "number"
+          },
+          {
+            "name": "outputAudio",
+            "in": "query",
+            "description": "Indicates whether output video should include audio track. The default value is true.",
+            "type": "boolean"
+          },
+          {
+            "name": "fadeInFadeOut",
+            "in": "query",
+            "description": "Indicates whether output video should have fade in/out effect during scene changes. The default value is true.",
+            "type": "boolean"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "202": {
+            "description": "The service has accepted the request and will start the process later.<br/>\r\nIn the response, there is a <b>\"Operation-Location\"</b> header. Client side should further query the operation status from the URL specified in this header.\r\n\r\n<table class=\"element table\">\r\n            <thead>\r\n            </thead>\r\n            <tbody>\r\n            <tr><td><b>Operation-Location</b></td><td>Client side should use this URL to query video operation status/result. <br/> Example: https://api.projectoxford.ai/video/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n.</td></tr>\r\n             </tbody>\r\n</table>"
+          },
+          "400": {
+            "description": " Error code and message returned in JSON:\r\n      <table class=\"element table\">\r\n      <thead>\r\n      <tr><th>Error Code</th><th>Description</th></tr>\r\n      </thead>\r\n      <tbody>\r\n      <tr><td>InvalidVideoSize</td><td>Video size is too small or too big.</td></tr>\r\n      <tr><td>BadArgument</td><td>Failed to deserialize JSON request.</td></tr>          </tbody>\r\n      </table>",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InvalidVideoSize",
+                  "message": "Video size is too small or too big."
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "When Content-Type is not application/json or application/octet-stream."
+          },
+          "401": {
+            "description": "Access denied due to invalid subscription key. ",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "Unauthorized",
+                  "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Quota limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "QuotaLimitExceeded",
+                  "message": "Out of call volume quota. Quota will be replenished later."
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "RateLimitExceeded",
+                  "message": "Rate limit is exceeded. Try again later."
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  }
+}

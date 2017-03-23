@@ -1,0 +1,826 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Computer Vision API - v1.0",
+    "version": "1.0",
+    "description": "The Computer Vision API provides state-of-the-art algorithms to process images and return information.  For example, it can be used to determine if an image contains mature content, or it can be used to find all the faces in an image.  It also has other features like estimating dominant and accent colors, categorizing the content of images, and describing an image with complete English sentences.  Additionally, it can also intelligently generate images thumbnails for displaying large images effectively."
+  },
+  "host": "westus.api.cognitive.microsoft.com",
+  "basePath": "/vision/v1.0",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/analyze": {
+      "post": {
+        "description": "This operation extracts a rich set of visual features based on the image content. \r\n        <br>\r\n        <br>\r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  Within your request, there is an optional parameter to allow you to choose which features to return.  By default, image categories are returned in the response. \r\n        <br>\r\n        <br>\r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\n<h4>Http Method</h4>\r\nPOST",
+        "operationId": "Analyze Image",
+        "parameters": [
+          {
+            "name": "visualFeatures",
+            "in": "query",
+            "description": "A string indicating what visual feature types to return. Multiple values should be comma-separated. \n<br/>Valid visual feature types include:\n<br/>\t\n<ul>\n<li><b>Categories</b> - categorizes image content according to a taxonomy defined in documentation. </li>\n<li><b>Tags</b> - tags the image with a detailed list of words related to the image content. </li>\n<li><b>Description</b> - describes the image content with a complete English sentence. </li>\n<li><b>Faces</b> - detects if faces are present. If present, generate coordinates, gender and age.</li> \n<li><b >ImageType</b> - detects if image is clipart or a line drawing.</li>\n<li><b> Color</b> - determines the accent color, dominant color, and whether an image is black&white.</li>\n<li><b>Adult</b> - detects if the image is pornographic in nature (depicts nudity or a sex act).  Sexually suggestive content is also detected.</li>\n</ul>",
+            "type": "string",
+            "default": "Categories",
+            "enum": [
+              "ImageType",
+              "Faces",
+              "Adult",
+              "Categories",
+              "Color",
+              "Tags",
+              "Description"
+            ]
+          },
+          {
+            "name": "details",
+            "in": "query",
+            "description": "A string indicating which domain-specific details to return. Multiple values should be comma-separated. \n<br/>Valid visual feature types include:\n<br/>\t\n<ul>\n<li><b >Celebrities</b> - identifies celebrities if detected in the image.</li>\n</ul>\n",
+            "type": "string",
+            "enum": [
+              "Celebrities"
+            ]
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "A string indicating which language to return. The service will return recognition results in specified language. If this parameter is not specified, the default value is &quot;en&quot;.<br />\nSupported languages:\n<ul>\n<li><b >en</b> - English, Default.</li>\n<li><b >zh</b> - Simplified Chinese.</li>\n</ul>",
+            "type": "string",
+            "default": "en",
+            "enum": [
+              "en",
+              "zh"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "The response include the extracted features in JSON format.\r\n<p/>Here is the definitions for enumeration types\r\n<br/>\r\n<b>ClipartType</b>\r\n<ul>\r\n<li>Non-clipart = 0, </li>\r\n<li> ambiguous = 1,</li>\r\n<li> normal-clipart = 2,</li>\r\n<li> good-clipart = 3.</li>\r\n</ul>\r\n<br/><b>LineDrawingType</b>\r\n<ul>\r\n<li>Non-LineDrawing = 0,</li>\r\n<li>LineDrawing = 1.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "categories": [
+                  {
+                    "name": "abstract_",
+                    "score": 0.00390625
+                  },
+                  {
+                    "name": "people_",
+                    "score": 0.83984375,
+                    "detail": {
+                      "celebrities": [
+                        {
+                          "name": "Satya Nadella",
+                          "faceRectangle": {
+                            "left": 597,
+                            "top": 162,
+                            "width": 248,
+                            "height": 248
+                          },
+                          "confidence": 0.999028444
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "adult": {
+                  "isAdultContent": false,
+                  "isRacyContent": false,
+                  "adultScore": 0.0934349000453949,
+                  "racyScore": 0.068613491952419281
+                },
+                "tags": [
+                  {
+                    "name": "person",
+                    "confidence": 0.98979085683822632
+                  },
+                  {
+                    "name": "man",
+                    "confidence": 0.94493889808654785
+                  },
+                  {
+                    "name": "outdoor",
+                    "confidence": 0.938492476940155
+                  },
+                  {
+                    "name": "window",
+                    "confidence": 0.89513939619064331
+                  }
+                ],
+                "description": {
+                  "tags": [
+                    "person",
+                    "man",
+                    "outdoor",
+                    "window",
+                    "glasses"
+                  ],
+                  "captions": [
+                    {
+                      "text": "Satya Nadella sitting on a bench",
+                      "confidence": 0.48293603002174407
+                    }
+                  ]
+                },
+                "requestId": "0dbec5ad-a3d3-4f7e-96b4-dfd57efe967d",
+                "metadata": {
+                  "width": 1500,
+                  "height": 1000,
+                  "format": "Jpeg"
+                },
+                "faces": [
+                  {
+                    "age": 44,
+                    "gender": "Male",
+                    "faceRectangle": {
+                      "left": 593,
+                      "top": 160,
+                      "width": 250,
+                      "height": 250
+                    }
+                  }
+                ],
+                "color": {
+                  "dominantColorForeground": "Brown",
+                  "dominantColorBackground": "Brown",
+                  "dominantColors": [
+                    "Brown",
+                    "Black"
+                  ],
+                  "accentColor": "873B59",
+                  "isBWImg": false
+                },
+                "imageType": {
+                  "clipArtType": 0,
+                  "lineDrawingType": 0
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>NotSupportedVisualFeature</b>\r\n<br/>Specified feature type is not valid.</li>\r\n<li><b>NotSupportedImage</b>\r\n<br/>Unsupported image, e.g. child pornography.</li>\r\n<li><b>InvalidDetails</b>\r\n<br/>Unsupported domain-specific model.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "application/json": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/generateThumbnail": {
+      "post": {
+        "description": "This operation generates a thumbnail image with the user-specified width and height.  By default, the service analyzes the image, identifies the region of interest (ROI), and generates smart cropping coordinates based on the ROI.  Smart cropping helps when you specify an aspect ratio that differs from that of the input image\r\n<p/>\r\nA successful response contains the thumbnail image binary.  If the request failed, the response contains an error code and a message to help determine what went wrong.\r\n\r\n<p/>\r\nUpon failure, the error code and an error message are returned. The error code could be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, InvalidThumbnailSize, NotSupportedImage, FailedToProcess, Timeout, or InternalServerError.\r\n\r\n<h4>Http Method</h4>\r\nPOST\r\n",
+        "operationId": "Get Thumbnail",
+        "parameters": [
+          {
+            "name": "smartCropping",
+            "in": "query",
+            "description": "Boolean flag for enabling smart cropping.",
+            "type": "boolean",
+            "default": "true",
+            "enum": [
+              "true"
+            ]
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "description": "Width of the thumbnail.  It must be between 1 and 1024. Recommended minimum of 50.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "description": "Height of the thumbnail. It must be between 1 and 1024. Recommended minimum of 50.",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Return thumbnail image.",
+            "examples": {
+              "image/jpeg": "[Binary image data]"
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>InvalidThumbnailSize</b>\r\n<br/>Specified thumbnail size is not in allowed range.</li>\r\n</ul>",
+            "examples": {
+              "image/jpeg": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>\r\n",
+            "examples": {
+              "image/jpeg": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "image/jpeg": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "image/jpeg",
+          "application/json"
+        ]
+      }
+    },
+    "/ocr": {
+      "post": {
+        "description": "Optical Character Recognition (OCR) detects text in an image and extracts the recognized characters into a machine-usable character stream.   \r\n\r\n<p/>\r\nUpon success, the OCR results will be returned. \r\n<p/>\r\nUpon failure, the error code together with an error message will be returned. The error code can be one of InvalidImageUrl, InvalidImageFormat, InvalidImageSize, NotSupportedImage,  NotSupportedLanguage, or InternalServerError.\r\n\r\n<h4>Http Method</h4>\r\nPOST",
+        "operationId": "OCR",
+        "parameters": [
+          {
+            "name": "language",
+            "in": "query",
+            "description": "The BCP-47 language code of the text to be detected in the image.The default value is &quot;unk&quot;, then the service will auto detect the language of the text in the image.<br />\n    <br />\n    Supported languages:\n    <ul style=\"margin-left:.375in;direction:ltr;unicode-bidi:embed;\n margin-top:0in;margin-bottom:0in\" type=\"disc\">\n        <li>unk (AutoDetect)</li>\n        <li>zh-Hans (ChineseSimplified)</li>\n        <li>zh-Hant (ChineseTraditional)</li>\n        <li>cs (Czech)</li>\n        <li>da (Danish)</li>\n        <li>nl (Dutch)</li>\n        <li>en (English)</li>\n        <li>fi (Finnish)</li>\n        <li>fr (French)</li>\n        <li>de (German)</li>\n        <li>el (Greek)</li>\n        <li>hu (Hungarian)</li>\n        <li>it (Italian)</li>\n        <li>Ja (Japanese)</li>\n        <li>ko (Korean)</li>\n        <li>nb (Norwegian)</li>\n        <li>pl (Polish)</li>\n        <li>pt (Portuguese,</li>\n        <li>ru (Russian)</li>\n        <li>es (Spanish)</li>\n        <li>sv (Swedish)</li>\n        <li>tr (Turkish)</li>\n    </ul>",
+            "type": "string",
+            "default": "unk",
+            "enum": [
+              "unk",
+              "zh-Hans",
+              " zh-Hant",
+              "cs",
+              "da",
+              "nl",
+              "en",
+              "fi",
+              "fr",
+              "de",
+              "el",
+              "hu",
+              "it",
+              "ja",
+              "ko",
+              "nb",
+              "pl",
+              "pt",
+              "ru",
+              "es",
+              "sv",
+              "tr"
+            ]
+          },
+          {
+            "name": "detectOrientation ",
+            "in": "query",
+            "description": "Whether detect the text orientation in the image. With detectOrientation=true the OCR service tries to detect the image orientation and correct it before further processing (e.g. if it's upside-down). ",
+            "type": "boolean",
+            "default": "true",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "The OCR results in the hierarchy of region/line/word. The results include text, bounding box for regions, lines and words.\r\n<p/>\r\n<b>textAngle</b><br/>\r\nThe angle, in degrees, of the detected text with respect to the closest horizontal or vertical direction. After rotating the input image clockwise by this angle, the recognized text lines become horizontal or vertical. In combination with the <b>orientation</b> property it can be used to overlay recognition results correctly on the original image, by rotating either the original image or recognition results by a suitable angle around the center of the original image. If the angle cannot be confidently detected, this property is not present. If the image contains text at different angles, only part of the text will be recognized correctly.\r\n<img src=\"https://oxfordportal.blob.core.windows.net/vision/doc-vision-overview-ocr01.png\"/>\r\n<p/><b>orientation</b><br/>\r\nOrientation of the text recognized in the image. The value (<b>up</b>,<b>down</b>,<b>left</b>, or <b>right</b>) refers to the direction that the top of the recognized text is facing, after the image has been rotated around its center according to the detected text angle (see <b>textAngle</b> property).\r\n\r\n<p/><b>language</b><br/>\r\nThe BCP-47 language code (user-provided or auto-detected) of the text detected in the image.\r\n\r\n<p/><b>regions</b><br/>\r\nAn array of objects, where each object represents a region of recognized text. A region consists of multiple lines (e.g. a column of text in a multi-column document).\r\n\r\n<p/><b>lines</b><br/>\r\nAn array of objects, where each object represents a line of recognized text.\r\n\r\n<p/><b>words</b><br/>\r\nAn array of objects, where each object represents a recognized word.\r\n\r\n<p/><b>boundingBox</b><br/>\r\nBounding box of a recognized region, line, or word, depending on the parent object. The four integers represent the x-coordinate of the left edge, the y-coordinate of the top edge, width, and height of the bounding box, in the coordinate system of the input image, after it has been rotated around its center according to the detected text angle (see <b>textAngle</b> property), with the origin at the top-left corner, and the y-axis pointing down.\r\n\r\n<p/><b>text</b><br/>\r\nString value of a recognized word.\r\n",
+            "examples": {
+              "application/json": {
+                "language": "en",
+                "textAngle": -2.0000000000000338,
+                "orientation": "Up",
+                "regions": [
+                  {
+                    "boundingBox": "462,379,497,258",
+                    "lines": [
+                      {
+                        "boundingBox": "462,379,497,74",
+                        "words": [
+                          {
+                            "boundingBox": "462,379,41,73",
+                            "text": "A"
+                          },
+                          {
+                            "boundingBox": "523,379,153,73",
+                            "text": "GOAL"
+                          },
+                          {
+                            "boundingBox": "694,379,265,74",
+                            "text": "WITHOUT"
+                          }
+                        ]
+                      },
+                      {
+                        "boundingBox": "565,471,289,74",
+                        "words": [
+                          {
+                            "boundingBox": "565,471,41,73",
+                            "text": "A"
+                          },
+                          {
+                            "boundingBox": "626,471,150,73",
+                            "text": "PLAN"
+                          },
+                          {
+                            "boundingBox": "801,472,53,73",
+                            "text": "IS"
+                          }
+                        ]
+                      },
+                      {
+                        "boundingBox": "519,563,375,74",
+                        "words": [
+                          {
+                            "boundingBox": "519,563,149,74",
+                            "text": "JUST"
+                          },
+                          {
+                            "boundingBox": "683,564,41,72",
+                            "text": "A"
+                          },
+                          {
+                            "boundingBox": "741,564,153,73",
+                            "text": "WISH"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>NotSupportedLanguage</b>\r\n<br/>Specified language is not supported.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "application/json": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/models": {
+      "get": {
+        "description": "This operation returns the list of domain-specific models that are supported by the Computer Vision API.  Currently, the API only supports one domain-specific model: a celebrity recognizer.\r\n        <br>\r\n        <br>\r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\n<h4>Http Method</h4>\r\nGET",
+        "operationId": "List Domain Specific Models",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "models": [
+                  {
+                    "name": "celebrities",
+                    "categories": [
+                      "people_"
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>Timeout</b>\r\n<br/>Request timed out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> \r\n",
+            "examples": {
+              "application/json": {
+                "code": "InternalServerError",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Internal server error"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/describe": {
+      "post": {
+        "description": "This operation generates a description of an image in human readable language with complete sentences.  The description is based on a collection of content tags, which are also returned by the operation. More than one description can be generated for each image.  Descriptions are ordered by their confidence score. All descriptions are in English.\r\n        <br>\r\n        <br>\r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        <br>\r\n        <br>\r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\n<h4>Http Method</h4>\r\nPOST",
+        "operationId": "Describe Image",
+        "parameters": [
+          {
+            "name": "maxCandidates",
+            "in": "query",
+            "description": "Maximum number of candidate descriptions to be returned.  The default is 1.",
+            "type": "string",
+            "default": "1",
+            "enum": [
+              "1"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "description": {
+                  "tags": [
+                    "person",
+                    "man",
+                    "outdoor",
+                    "window",
+                    "glasses"
+                  ],
+                  "captions": [
+                    {
+                      "text": "Satya Nadella sitting on a bench",
+                      "confidence": 0.48293603002174407
+                    },
+                    {
+                      "text": "Satya Nadella is sitting on a bench",
+                      "confidence": 0.40037006815422832
+                    },
+                    {
+                      "text": "Satya Nadella sitting in front of a building",
+                      "confidence": 0.38035155997373377
+                    }
+                  ]
+                },
+                "requestId": "ed2de1c6-fb55-4686-b0da-4da6e05d283f",
+                "metadata": {
+                  "width": 1500,
+                  "height": 1000,
+                  "format": "Jpeg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>NotSupportedImage</b>\r\n<br/>Unsupported image, e.g. child pornography.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "application/json": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/tag": {
+      "post": {
+        "description": "This operation generates a list of words, or tags, that are relevant to the content of the supplied image. The Computer Vision API can return tags based on objects, living beings, scenery or actions found in images. Unlike categories, tags are not organized according to a hierarchical classification system, but correspond to image content. Tags may contain hints to avoid ambiguity or provide context, for example the tag â€œcelloâ€ may be accompanied by the hint â€œmusical instrumentâ€. All tags are in English.\r\n        <br>\r\n        <br>\r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        <br>\r\n        <br>\r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\n<h4>Http Method</h4>\r\nPOST",
+        "operationId": "Tag Image",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "tags": [
+                  {
+                    "name": "grass",
+                    "confidence": 0.9999997615814209
+                  },
+                  {
+                    "name": "outdoor",
+                    "confidence": 0.99997067451477051
+                  },
+                  {
+                    "name": "sky",
+                    "confidence": 0.99928975105285645
+                  },
+                  {
+                    "name": "building",
+                    "confidence": 0.99646323919296265
+                  },
+                  {
+                    "name": "house",
+                    "confidence": 0.99279803037643433
+                  },
+                  {
+                    "name": "lawn",
+                    "confidence": 0.82268029451370239
+                  },
+                  {
+                    "name": "green",
+                    "confidence": 0.64122253656387329
+                  },
+                  {
+                    "name": "residential",
+                    "confidence": 0.31403225660324097
+                  }
+                ],
+                "requestId": "1ad0e45e-b7b4-4be3-8042-53be96103337",
+                "metadata": {
+                  "width": 400,
+                  "height": 400,
+                  "format": "Jpeg"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>NotSupportedImage</b>\r\n<br/>Unsupported image, e.g. child pornography.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "application/json": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/models/{model}/analyze": {
+      "post": {
+        "description": "This operation recognizes content within an image by applying a domain-specific model.  The list of domain-specific models that are supported by the Computer Vision API can be retrieved using the /models GET request.  Currently, the API only provides a single domain-specific model: celebrities.\r\n        <br>\r\n        <br>\r\n        Two input methods are supported -- (1) Uploading an image or (2) specifying an image URL.  \r\n        <br>\r\n        <br>\r\n        A successful response will be returned in JSON.  If the request failed, the response will contain an error code and a message to help understand what went wrong. \r\n\r\n<h4>Http Method</h4>\r\nPOST",
+        "operationId": "Recognize Domain Specific Content",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "path",
+            "description": "The domain-specific content to recognize.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "application/json": {
+                "requestId": "f0027b4b-dc0d-4082-9228-1545ed246b03",
+                "metadata": {
+                  "width": 1500,
+                  "height": 1000,
+                  "format": "Jpeg"
+                },
+                "result": {
+                  "celebrities": [
+                    {
+                      "name": "Satya Nadella",
+                      "faceRectangle": {
+                        "left": 597,
+                        "top": 162,
+                        "width": 248,
+                        "height": 248
+                      },
+                      "confidence": 0.999028444
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Possible Errors: \r\n<ul>\r\n<li><b>InvalidImageUrl</b>\r\n<br/>Image URL is badly formatted or not accessible.\r\n</li>\r\n<li><b>InvalidImageFormat</b>\r\n<br/>Input data is not a valid image.</li>\r\n<li><b>InvalidImageSize</b>\r\n<br/>Input image is too large.</li>\r\n<li><b>NotSupportedImage</b>\r\n<br/>Unsupported image, e.g. child pornography.</li>\r\n<li><b>BadArgument</b>\r\n<br/>Unsupported domain-specific model.</li>\r\n</ul>",
+            "examples": {
+              "application/json": {
+                "code": "InvalidImageFormat",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "The input file is not in a valid image format that the service can support. "
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type error. Content-Type is not in the allowed types:<br/>\r\n<ul>\r\n<li>For an image URL: Content-Type should be application/json</li>\r\n<li>For a binary image data: Content-Type should be application/octet-stream or multipart/form-data</li>\r\n</ul>\r\n",
+            "examples": {
+              "application/json": {
+                "code": "BadArgument",
+                "message": "Invalid Media Type"
+              }
+            }
+          },
+          "500": {
+            "description": "Possible Errors:\r\n<ul>\r\n<li><b>FailedToProcess</b>\r\n<br/>Failed to process the image.</li>\r\n<li><b>Timeout</b>\r\n<br/>Image processing time out.</li>\r\n<li><b>InternalServerError</b>\r\n<br/>Internal server error.</li>\r\n</ul> ",
+            "examples": {
+              "application/json": {
+                "code": "FailedToProcess",
+                "requestId": "B8D802CF-DD8F-4E61-B15C-9E6C5844CCBC",
+                "message": "Could not extract image features"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  }
+}

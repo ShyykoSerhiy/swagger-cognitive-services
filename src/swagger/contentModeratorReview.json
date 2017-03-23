@@ -1,0 +1,367 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Content Moderator - Review",
+    "version": "1.0",
+    "description": "Use this API to create reviews in Content Moderator. Before you can create reviews you will need a moderation Team. If you don't already have one Sign Up here: https://contentmoderator.cognitive.microsoft.com\r\n\r\nYou will need to use your Content Moderator review team credentials to generate Authentication Tokens that need to be passed in the Authorization header in addition to your Content Moderator subscription key.\r\n\r\nTo use the Test Console you must include the following header:\r\n\r\nHeader name: authorization\r\nHeader value: Bearer -Your access token-\r\n\r\n"
+  },
+  "host": "westus.api.cognitive.microsoft.com",
+  "basePath": "/contentmoderator/review/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/teams/{teamName}/reviews/{reviewId}": {
+      "get": {
+        "description": "Returns review details for the review Id passed.",
+        "operationId": "Review - Get",
+        "parameters": [
+          {
+            "name": "teamName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "reviewId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{\r\n  \"ReviewId\": \"20161044ecc87e4b9d4341b069cf2af8958670\",\r\n  \"Status\": \"<Pending, Complete>\",\r\n  \"ReviewerResultTags\": <Array of KeyValue with Reviewer set Tags>,\r\n  \"CreatedBy\": \"<Reviewer Name>\",\r\n  \"Metadata\": [\r\n    {\r\n      \"Key\": \"apiScoreVal\",\r\n      \"Value\": \"0.206\"\r\n    },\r\n    {\r\n      \"Key\": \"a\",\r\n      \"Value\": \"False\"\r\n    },\r\n    {\r\n      \"Key\": \"racyScore\",\r\n      \"Value\": \"0.151\"\r\n    },\r\n    {\r\n      \"Key\": \"r\",\r\n      \"Value\": \"False\"\r\n    },\r\n    {\r\n      \"Key\": \"ExternalId\",\r\n      \"Value\": \"image02.png\"\r\n    }\r\n  ],\r\n  \"Type\": \"Image\",\r\n  \"Content\": \"<Content value>\",\r\n  \"ContentId\": \"<Content Id>\",\r\n  \"CallbackEndpoint\": null\r\n}"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/teams/{teamName}/jobs/{JobId}": {
+      "get": {
+        "description": "Get the Job Details for a Job Id.",
+        "operationId": "Job - Get",
+        "parameters": [
+          {
+            "name": "teamName",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "JobId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "{\r\n  \"Id\": \"<Job Id>\",\r\n  \"TeamName\": \"<Team Name>\",\r\n  \"Status\": \"<Pending, Failed, Completed>\",\r\n  \"WorkflowId\": \"default\",\r\n  \"CallBackEndpoint\": \"\",\r\n  \"ReviewId\": <Review Id if one is created>,\r\n  \"ResultMetaData\": [\r\n   <Array of KeyVaules with output from Connectors>\r\n]\r\n}"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/teams/{teamName}/reviews": {
+      "post": {
+        "description": "The reviews created would show up for Reviewers on your team. As Reviewers complete reviewing, results of the Review would be POSTED (i.e. HTTP POST) on the specified CallBackEndpoint.\r\n\r\n<h3>CallBack Schemas </h3>\r\n<h4>Review Completion CallBack Sample</h4>\r\n<p>\r\n{<br/>\r\n  \"ReviewId\": \"<Review Id>\",<br/>\r\n  \"ModifiedOn\": \"2016-10-11T22:36:32.9934851Z\",<br/>\r\n  \"ModifiedBy\": \"<Name of the Reviewer>\",<br/>\r\n  \"CallBackType\": \"Review\",<br/>\r\n  \"ContentId\": \"<The ContentId that was specified input>\",<br/>\r\n  \"Metadata\": {<br/>\r\n    \"adultscore\": \"0.xxx\",<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"racyscore\": \"0.xxx\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  },<br/>\r\n  \"ReviewerResultTags\": {<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  }<br/>\r\n}<br/>\r\n\r\n</p>",
+        "operationId": "Review - Create",
+        "parameters": [
+          {
+            "name": "teamName",
+            "in": "path",
+            "description": "Your Team Name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subTeam",
+            "in": "query",
+            "description": "Optional paramter used to specify the Sub Team for this review",
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": "[\r\n  \"<Review Id>\"\r\n]"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/teams/{teamName}/jobs": {
+      "post": {
+        "description": "A job Id will be returned for the Image content posted on this endpoint. \r\n\r\nOnce the content is evaluated against the Workflow provided the review will be created or ignored based on the workflow expression.\r\n\r\n<h3>CallBack Schemas </h3>\r\n\r\n<p>\r\n<h4>Job Completion CallBack Sample</h4><br/>\r\n\r\n{<br/>\r\n  \"JobId\": \"<Job Id>,<br/>\r\n  \"ReviewId\": \"<Review Id, if the Job resulted in a Review to be created>\",<br/>\r\n  \"WorkFlowId\": \"default\",<br/>\r\n  \"Status\": \"<This will be one of Complete, InProgress, Error>\",<br/>\r\n  \"ContentType\": \"Image\",<br/>\r\n  \"ContentId\": \"<This is the ContentId that was specified on input>\",<br/>\r\n  \"CallBackType\": \"Job\",<br/>\r\n  \"Metadata\": {<br/>\r\n    \"adultscore\": \"0.xxx\",<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"racyscore\": \"0.xxx\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  }<br/>\r\n}<br/>\r\n\r\n</p>\r\n<p>\r\n<h4>Review Completion CallBack Sample</h4><br/>\r\n\r\n{\r\n  \"ReviewId\": \"<Review Id>\",<br/>\r\n  \"ModifiedOn\": \"2016-10-11T22:36:32.9934851Z\",<br/>\r\n  \"ModifiedBy\": \"<Name of the Reviewer>\",<br/>\r\n  \"CallBackType\": \"Review\",<br/>\r\n  \"ContentId\": \"<The ContentId that was specified input>\",<br/>\r\n  \"Metadata\": {<br/>\r\n    \"adultscore\": \"0.xxx\",\r\n    \"a\": \"False\",<br/>\r\n    \"racyscore\": \"0.xxx\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  },<br/>\r\n  \"ReviewerResultTags\": {<br/>\r\n    \"a\": \"False\",<br/>\r\n    \"r\": \"True\"<br/>\r\n  }<br/>\r\n}<br/>\r\n\r\n</p>",
+        "operationId": "Job - Create",
+        "parameters": [
+          {
+            "name": "teamName",
+            "in": "path",
+            "description": "Your team name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ContentType",
+            "in": "query",
+            "description": "Image, Text or Video",
+            "required": true,
+            "type": "string",
+            "default": "Image",
+            "enum": [
+              "Image"
+            ]
+          },
+          {
+            "name": "ContentId",
+            "in": "query",
+            "description": "Content Id/Name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "WorkflowName",
+            "in": "query",
+            "description": "Workflow Name, if left empty your teams default workflow would be used",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "CallBackEndpoint",
+            "in": "query",
+            "description": "Callback endpoint for posting the reviews result.",
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json",
+          "image/jpeg"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "examples": {
+              "application/json": {
+                "JobId": "<Job Id>"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json",
+          "text/json"
+        ]
+      }
+    },
+    "/teams/{team}/workflows": {
+      "get": {
+        "description": "Get all the Workflows available for you Team",
+        "operationId": "Workflow - Get All",
+        "parameters": [
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Your Team name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Array of Workflows",
+            "examples": {
+              "application/json": "[\r\n{\r\n    \"Description\": \"<A description for the Workflow>\",\r\n    \"Expression\": {\r\n      \"Left\": {\r\n          \"ConnectorName\": \"imagemoderator\",\r\n          \"OutputName\": \"adultscore\",\r\n          \"Operator\": \"ge\",\r\n          \"Value\": \"0.4\",\r\n          \"Type\": \"Condition\"        \r\n      },\r\n      \"Right\": {       \r\n          \"ConnectorName\": \"imagemoderator\",\r\n          \"OutputName\": \"racyscore\",\r\n          \"Operator\": \"ge\",\r\n          \"Value\": \"0.5\",\r\n          \"Type\": \"Condition\"\r\n        }\r\n      ,\r\n      \"Combine\": \"OR\",\r\n      \"Type\": \"Combine\"\r\n }\r\n}\r\n]"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/teams/{team}/workflows/{workflowname}": {
+      "get": {
+        "description": "Get the details of a specific Workflow on your Team",
+        "operationId": "Workflow - Get",
+        "parameters": [
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Your Team name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflowname",
+            "in": "path",
+            "description": "Provide a name for this workflow",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "examples": {
+              "appplication/json": {
+                "Description": "<A description for the Workflow>",
+                "Expression": {
+                  "Left": {
+                    "ConnectorName": "imagemoderator",
+                    "OutputName": "adultscore",
+                    "Operator": "ge",
+                    "Value": "0.4",
+                    "Type": "Condition"
+                  },
+                  "Right": {
+                    "ConnectorName": "imagemoderator",
+                    "OutputName": "racyscore",
+                    "Operator": "ge",
+                    "Value": "0.5",
+                    "Type": "Condition"
+                  },
+                  "Combine": "OR",
+                  "Type": "Combine"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "appplication/json"
+        ]
+      },
+      "put": {
+        "description": "Create a new workflow or update an existing one.",
+        "operationId": "Workflow - Create Or Update",
+        "parameters": [
+          {
+            "name": "team",
+            "in": "path",
+            "description": "Your Team name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "workflowname",
+            "in": "path",
+            "description": "Provide a name for this workflow",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {}
+      }
+    }
+  }
+}

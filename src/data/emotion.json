@@ -1,0 +1,140 @@
+{
+  "name": "Emotion",
+  "url": "https://westus.api.cognitive.microsoft.com/emotion/v1.0",
+  "methods": [
+    {
+      "normName": "emotionRecognitionPost",
+      "normNameCap": "EmotionRecognitionPost",
+      "responseTypeName": "EmotionRecognitionPostResult",
+      "responseType": "{ \"faceRectangle\": { \"left\": number; \"top\": number; \"width\": number; \"height\": number; }; \"scores\": { \"anger\": number; \"contempt\": number; \"disgust\": number; \"fear\": number; \"happiness\": number; \"neutral\": number; \"sadness\": number; \"surprise\": number; }; }[]",
+      "description": "Recognizes the emotions expressed by one or more people in an image, as well as returns a bounding box for the face. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. • The supported input image formats includes JPEG, PNG, GIF(the first frame), BMP. Image file size should be no larger than 4MB. • If a user has already called the Face API, they can submit the face rectangles as an optional input. Otherwise, Emotion API will first compute the rectangles. • The detectable face size range is 36x36 to 4096x4096 pixels. Faces out of this range will not be detected. • For each image, the maximum number of faces detected is 64 and the faces are ranked by face rectangle size in descending order. If no face is detected, an empty array will be returned. • Some faces may not be detected due to technical challenges, e.g. very large face angles (head-pose), large occlusion. Frontal and near-frontal faces have the best results. • The emotions contempt and disgust are experimental.",
+      "path": "/recognize",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "EmotionRecognitionPostQueryParameters",
+      "normHeaderParametersName": "EmotionRecognitionPostHeaderParameters",
+      "normPathParametersName": "EmotionRecognitionPostPathParameters",
+      "params": "queryParams: EmotionRecognitionPostQueryParameters, headerParams: EmotionRecognitionPostHeaderParameters"
+    },
+    {
+      "normName": "emotionRecognitionInVideoPost",
+      "normNameCap": "EmotionRecognitionInVideoPost",
+      "responseTypeName": "EmotionRecognitionInVideoPostResult",
+      "responseType": "{}",
+      "description": "Welcome to the Microsoft Emotion API for Video. Emotion API for Video is a cloud-based API that recognizes the emotions expressed by the people in an image and returns their emotions. The emotions detected are happiness, sadness, surprise, anger, fear, contempt, and disgust or neutral. These APIs allow you to build more personalized and intelligent apps by understanding your video content. \r\n\r\nEmotion Recognition\r\nReturns aggregate emotions for the faces in a video.\r\n• The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. \r\n• The detectable face size range is 24x24 to 2048x2048 pixels. The faces out of this range will not be detected. \r\n• For each video, the maximum number of faces returned is 64. \r\n• Some faces may not be detected due to technical challenges; e.g. very large face angles (head-pose), and large occlusion. Frontal and near-frontal faces have the best results. \r\n• Output files are deleted after 24 hours. ",
+      "path": "/recognizeinvideo",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "outputStyle",
+          "in": "query",
+          "description": "Defaults to â€œaggregateâ€ style, but a user can specify â€œperFrameâ€ style.",
+          "type": "string",
+          "default": "aggregate",
+          "enum": [
+            "aggregate",
+            "perFrame"
+          ],
+          "normName": "outputStyle"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "EmotionRecognitionInVideoPostQueryParameters",
+      "normHeaderParametersName": "EmotionRecognitionInVideoPostHeaderParameters",
+      "normPathParametersName": "EmotionRecognitionInVideoPostPathParameters",
+      "params": "queryParams: EmotionRecognitionInVideoPostQueryParameters, headerParams: EmotionRecognitionInVideoPostHeaderParameters"
+    },
+    {
+      "normName": "getRecognitionInVideoOperationResultGet",
+      "normNameCap": "GetRecognitionInVideoOperationResultGet",
+      "responseTypeName": "GetRecognitionInVideoOperationResultGetResult",
+      "responseType": "{ \"status\": string; \"createdDateTime\": string; \"lastActionDateTime\": string; }",
+      "description": "Get operation result. If succeeded, this interface returns a JSON that includes time stamps and operation status/result. Below is an example: \r\n\r\nExample JSON:\r\n\r\n            \r\n            \r\n            \r\n            \r\n{\r\n\t\"status\": \"Running\",\r\n\t\"createdDateTime\":  \"2015-09-30T01:28:23.4493273Z\",\r\n\t\"lastActionDateTime\": \"2015-09-30T01:32:23.0895791Z\",\r\n}\r\n             \r\n            \r\n\r\n\r\n\r\nPossible values of \"status\" field are:\r\nNot Started - video content is received/uploaded but the process has not started.\r\nUploading - the video content is being uploaded by the URL client side provides.\r\nRunning - the process is running.\r\nFailed - the process is failed. Detailed information will be provided in \"message\" field.\r\nSucceeded - the process succeeded. In this case, depending on specific operation client side created, the result can be retrieved in following two ways:\r\n\r\nThe result (as a JSON in string) is available in processingResult field.",
+      "path": "/operations/{oid}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "oid",
+          "in": "path",
+          "description": "",
+          "required": true,
+          "type": "string",
+          "normName": "oid"
+        }
+      ],
+      "normQueryParametersName": "GetRecognitionInVideoOperationResultGetQueryParameters",
+      "normHeaderParametersName": "GetRecognitionInVideoOperationResultGetHeaderParameters",
+      "normPathParametersName": "GetRecognitionInVideoOperationResultGetPathParameters",
+      "params": "queryParams: GetRecognitionInVideoOperationResultGetQueryParameters, headerParams: GetRecognitionInVideoOperationResultGetHeaderParameters, pathParams: GetRecognitionInVideoOperationResultGetPathParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}

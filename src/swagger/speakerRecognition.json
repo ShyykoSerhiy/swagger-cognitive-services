@@ -1,0 +1,815 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Speaker Recognition API",
+    "version": "1.0"
+  },
+  "host": "westus.api.cognitive.microsoft.com",
+  "basePath": "/spid/v1.0",
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/verificationProfiles": {
+      "post": {
+        "description": "Create a new speaker verification profile with specific locale.<br/>\r\nOne subscription can only create 1000 speaker verification/identification profiles at most.<br/>",
+        "operationId": "Verification Profile - Create Profile",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Speaker verification profile created successfully. GUID is returned to reference the created profile.\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>verificationProfileId</th>\r\n        <td>Id of the created speaker verification profile.</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": {
+                "verificationProfileId": "49a36324-fc4b-4387-aa06-090cfbf0064f"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "description": "Get all speaker verification profiles within the subscription.",
+        "operationId": "Verification Profile - Get All Profiles",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully processed by the service. List of all created verification profiles are returned.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>verificationProfileId</th>\r\n        <td>Id of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>locale</th>\r\n        <td>Language locale of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentsCount</th>\r\n        <td>Speaker enrollments count.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollmentsCount</th>\r\n        <td>Remaining number of required enrollments if enrollmentStatus== Enrolling.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>createdDateTime</th>\r\n        <td>Created date of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>lastActionDateTime</th>\r\n        <td>Last date of usage for this profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>EnrollmentStatus</th>\r\n        <td>Speaker verification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for verification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for verification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for verification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": "[{\r\n  \"verificationProfileId\" : \"111f427c-3791-468f-b709-fcef7660fff9\",\r\n  \"locale\" : \"en-US\",\r\n  \"enrollmentsCount\" : 2,\r\n  \"remainingEnrollmentsCount\" : 0,\r\n  \"createdDateTime\" : \"2015-04-23T18:25:43.511Z\", \r\n  \"lastActionDateTime\" : \"2015-04-23T18:25:43.511Z\",\r\n  \"enrollmentStatus\" : \"Enrolled\" //[Enrolled | Enrolling | Training]\r\n}, …]"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/verificationProfiles/{verificationProfileId}": {
+      "delete": {
+        "description": "Deletes both speaker verification profile and all associated enrollments permanently from the service.",
+        "operationId": "Verification Profile - Delete Profile",
+        "parameters": [
+          {
+            "name": "verificationProfileId",
+            "in": "path",
+            "description": "ID of speaker verification profile. It should be a GUID.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "7180c319-88b5-4cf0-824d-1dfd5d4854f4"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Speaker verification profile and all associated enrollments are deleted successfully from the service."
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "description": "Get a speaker verification profile by verificationProfileId",
+        "operationId": "Verification Profile - Get Profile ",
+        "parameters": [
+          {
+            "name": "verificationProfileId",
+            "in": "path",
+            "description": "ID of speaker verification profile. It should be a GUID.",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully processed by the service. Requested verification profile is returned.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>verificationProfileId</th>\r\n        <td>Id of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>locale</th>\r\n        <td>Language locale of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentsCount</th>\r\n        <td>Speaker enrollments count.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollmentsCount</th>\r\n        <td>Remaining number of required enrollments if enrollmentStatus == Enrolling.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>createdDateTime</th>\r\n        <td>Created date of the speaker verification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>lastActionDateTime</th>\r\n        <td>Last date of usage for this profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>EnrollmentStatus</th>\r\n        <td>Speaker verification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for verification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for verification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for verification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": {
+                "verificationProfileId": "111f427c-3791-468f-b709-fcef7660fff9",
+                "locale": "en-US",
+                "enrollmentsCount": 2,
+                "remainingEnrollmentsCount": 0,
+                "createdDateTime": "2015-04-23T18:25:43.511Z",
+                "lastActionDateTime": "2015-04-23T18:25:43.511Z",
+                "enrollmentStatus": "Enrolled"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/verificationProfiles/{verificationProfileId}/reset": {
+      "post": {
+        "description": "Deletes all enrollments associated with the given speaker’s verification profile permanently from the service.",
+        "operationId": "Verification Profile - Reset Enrollments",
+        "parameters": [
+          {
+            "name": "verificationProfileId",
+            "in": "path",
+            "description": "ID of speaker verification profile. It should be a GUID.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "7180c319-88b5-4cf0-824d-1dfd5d4854f4"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All enrollments associated with the provided speaker verification profile are successfully deleted from the service. Enrollment status is reset and set to <b>“Enrolling”</b>."
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/verificationProfiles/{verificationProfileId}/enroll": {
+      "post": {
+        "description": "Enrollment for speaker verification is text-dependent, which means speaker need to choose a specific phrase to use in both enrollment and verification. List of supported phrases can be found in <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5652c0801984551c3859634d\">Verification Phrase - List All Supported Verification Phrases</a>.<br/><br/>\r\nThe service requires at least 3 enrollments for each speaker before the profile can be used in verification scenarios. It is recommended to use the same device (mic) in both enrollment and verification.",
+        "operationId": "Verification Profile - Create Enrollment",
+        "parameters": [
+          {
+            "name": "verificationProfileId",
+            "in": "path",
+            "description": "ID of speaker verification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/563309b7778daf06340c9652\">Verification Profile - Create Profile</a> API",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "94BC205B-FACD-42A7-9D80-485403106627"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "multipart/form-data",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "Enrollment request successfully processed by the service.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>enrollmentStatus</th>\r\n        <td>Speaker verification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for verification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for verification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for verification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentsCount</th>\r\n        <td>The current speaker verification profile enrollments count.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollments</th>\r\n        <td>Remaining number of required enrollments if enrollmentStatus== Enrolling.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>phrase</th>\r\n        <td>Recognized phrase of the enrollment audio.</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": {
+                "enrollmentStatus": "Enrolled",
+                "enrollmentsCount": 0,
+                "remainingEnrollments": 0,
+                "phrase": "Recognized verification phrase"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/verify": {
+      "post": {
+        "description": "To automatically verify and authenticate users using their voice or speech.",
+        "operationId": "Speaker Recognition - Verification",
+        "parameters": [
+          {
+            "name": "verificationProfileId",
+            "in": "query",
+            "description": "ID of speaker verification profile. It should be a GUID.",
+            "required": true,
+            "type": "string",
+            "enum": [
+              "94BC205B-FACD-42A7-9D80-485403106627"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification request processed successfully by the service.<br/><br/>\r\nDescription of the fields in the returned JSON response,<br/>\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>result</th>\r\n        <td>The result of the verification operation.\r\n          <ul>\r\n            <li><b>Accept</b>: The verification is accepted.</li>\r\n            <li><b>Reject</b>: The verification is rejected.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <th>confidence</th>\r\n        <td>The confidence level of the verification.\r\n          <ul>\r\n            <li><b>Low</b>: The confidence of the verification is low.</li>\r\n            <li><b>Normal</b>: The confidence of the verification is normal.</li>\r\n            <li><b>High</b>: The confidence of the verification is high.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <th>phrase</th>\r\n        <td>The recognized phrase of the verification audio file.</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": {
+                "result": "Accept",
+                "confidence": "Normal",
+                "phrase": "recognized phrase"
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/identificationProfiles": {
+      "post": {
+        "description": "Create a new speaker identification profile with specified locale.<br/>\r\nOne subscription can only create 1000 speaker verification/identification profiles at most.<br/>",
+        "operationId": "Identification Profile - Create Profile",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Speaker identification profile created successfully. GUID is returned to reference the created profile.\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>identificationProfileId</th>\r\n        <td>Id of the created speaker identification profile.</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": {
+                "identificationProfileId": "49a36324-fc4b-4387-aa06-090cfbf0064f"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "description": "Get all speaker identification profiles within the subscription.",
+        "operationId": "Identification Profile - Get All Profiles",
+        "parameters": [
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully processed by the service. List of all created identification profiles are returned.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>identificationProfileId</th>\r\n        <td>Id of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>locale</th>\r\n        <td>Language locale of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentSpeechTime</th>\r\n        <td>Total number of useful speech detected in all enrollment audio files provided (seconds).</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollmentSpeechTime</th>\r\n        <td>Remaining number of speech needed for a successful enrollment (seconds).</td>\r\n      </tr>\r\n      <tr>\r\n        <th>createdDateTime</th>\r\n        <td>Created date of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>lastActionDateTime</th>\r\n        <td>Last date of usage for this profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>EnrollmentStatus</th>\r\n        <td>Speaker identification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for identification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for identification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for identification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": "[{\r\n  \"identificationProfileId\" : \"111f427c-3791-468f-b709-fcef7660fff9\",\r\n  \"locale\" : \"en-US\",\r\n  \"enrollmentSpeechTime\", 0.0\r\n  \"remainingEnrollmentSpeechTime\" : 0.0,\r\n  \"createdDateTime\" : \"2015-04-23T18:25:43.511Z\",\r\n  \"lastActionDateTime\" : \"2015-04-23T18:25:43.511Z\",\r\n  \"enrollmentStatus\" : \"Enrolled\" //[Enrolled | Enrolling | Training]\r\n}, …]"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/identificationProfiles/{identificationProfileId}": {
+      "get": {
+        "description": "Get a speaker identification profile by identificationProfileId.",
+        "operationId": "Identification Profile - Get Profile",
+        "parameters": [
+          {
+            "name": "identificationProfileId",
+            "in": "path",
+            "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request successfully processed by the service, details can be found in the returned JSON.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>identificationProfileId</th>\r\n        <td>Id of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>locale</th>\r\n        <td>Language locale of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentSpeechTime</th>\r\n        <td>Total number of useful speech detected in all enrollment audio files provided (seconds).</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollmentSpeechTime</th>\r\n        <td>Remaining number of speech needed for a successful enrollment (seconds).</td>\r\n      </tr>\r\n      <tr>\r\n        <th>createdDateTime</th>\r\n        <td>Created date of the speaker identification profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>lastActionDateTime</th>\r\n        <td>Last date of usage for this profile.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>EnrollmentStatus</th>\r\n        <td>Speaker identification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for identification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for identification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for identification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": "{\r\n  \"identificationProfileId\" : \"111f427c-3791-468f-b709-fcef7660fff9\",\r\n  \"locale\" : \"en-US\",\r\n  \"enrollmentSpeechTime\", 0.0\r\n  \"remainingEnrollmentSpeechTime\" : 0.0,\r\n  \"createdDateTime\" : \"2015-04-23T18:25:43.511Z\",\r\n  \"lastActionDateTime\" : \"2015-04-23T18:25:43.511Z\",\r\n  \"enrollmentStatus\" : \"Enrolled\" \r\n}"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      },
+      "delete": {
+        "description": "Deletes both speaker identification profile and all associated enrollments permanently from the service.",
+        "operationId": "Identification Profile - Delete Profile",
+        "parameters": [
+          {
+            "name": "identificationProfileId",
+            "in": "path",
+            "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Speaker identification profile and all associated enrolments are deleted successfully from the service."
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/identificationProfiles/{identificationProfileId}/reset": {
+      "post": {
+        "description": "Deletes all enrollments associated with the given speaker identification profile permanently from the service.",
+        "operationId": "Identification Profile - Reset Enrollments",
+        "parameters": [
+          {
+            "name": "identificationProfileId",
+            "in": "path",
+            "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All enrollments associated with the provided speaker identification profile are successfully deleted from the service. Enrollment status is reset and set to <b>“Enrolling”</b>."
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/identificationProfiles/{identificationProfileId}/enroll": {
+      "post": {
+        "description": "Enrollment for speaker identification is text-independent, which means that there are no restrictions on what the speaker says in the audio. The speaker's voice is recorded, and a number of features are extracted to form a unique voiceprint.",
+        "operationId": "Identification Profile - Create Enrollment",
+        "parameters": [
+          {
+            "name": "identificationProfileId",
+            "in": "path",
+            "description": "ID of speaker identification profile. GUID returned from <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c068e597ed22ec38f42e\">Identification Profile - Create Profile</a> API",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "shortAudio",
+            "in": "query",
+            "description": "Instruct the service to waive the <b>recommended</b> minimum audio limit needed for enrollment. Set value to “<b>true</b>” to force enrollment using any audio length (min. 1 second).",
+            "type": "boolean",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "multipart/form-data",
+          "application/octet-stream"
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted means that the service has accepted the request and will start processing later.<br/>\r\nIt will return Accepted immediately and add the operation location in header for you to retrieve result status with operation <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c725ca73070ee8845bd6\">Speaker Recognition - Get Operation Status</a>.\r\n\r\n    <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Headers</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>Operation-Location</th>\r\n        <td>User will use this URL to query enrollment operation status. <br/>Example: https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>\r\n"
+          },
+          "500": {
+            "description": "Returns 500 if there's any error happened in creating enrollment.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "InternalServerError",
+                  "message": "SpeakerInvalid"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/identify": {
+      "post": {
+        "description": "To automatically identify who is speaking given a group of speakers.",
+        "operationId": "Speaker Recognition - Identification",
+        "parameters": [
+          {
+            "name": "identificationProfileIds",
+            "in": "query",
+            "description": "Comma-delimited identificationProfileIds, the id should be Guid.<br/>It can only support at most 10 profiles for one identification request.",
+            "required": true,
+            "type": "string",
+            "default": "111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9",
+            "enum": [
+              "111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9,111f427c-3791-468f-b709-fcef7660fff9"
+            ]
+          },
+          {
+            "name": "shortAudio",
+            "in": "query",
+            "description": "Instruct the service to waive the <b>recommended</b> minimum audio limit needed for identification. Set value to “<b>true</b>” to force identification using any audio length (min. 1 second).",
+            "type": "boolean",
+            "enum": [
+              "true",
+              "false"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "consumes": [
+          "application/octet-stream",
+          "multipart/form-data"
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted means that the service has accepted the request and will start processing later.<br/>\r\nIt will return Accepted immediately and add the operation location in header for you to retrieve result status with operation <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c725ca73070ee8845bd6\">Speaker Recognition - Get Operation Status</a>.\r\n\r\n    <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Headers</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>Operation-Location</th>\r\n        <td>User will use this URL to query identification operation status. <br/>Example: https://api.projectoxford.ai/spid/v1.0/operations/EF217D0C-9085-45D7-AAE0-2B36471B89B5\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>"
+          }
+        }
+      }
+    },
+    "/operations/{operationId}": {
+      "get": {
+        "description": "Get operation status or result. The operation should be created by <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c523778daf217c292592\"> Speaker Recognition - Identification</a> or <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c3271984551c84ec6797\"> Identification Profile - Create Enrollment</a>. And the URL should be retrieved from Operation-Location header of initial POST 202 response",
+        "operationId": "Speaker Recognition - Get Operation Status",
+        "parameters": [
+          {
+            "name": "operationId",
+            "in": "path",
+            "description": "The operation Id, created by <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c523778daf217c292592\"> Speaker Recognition - Identification</a> or <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/5645c3271984551c84ec6797\"> Identification Profile - Create Enrollment</a>. ",
+            "required": true,
+            "type": "string",
+            "default": "EF217D0C-9085-45D7-AAE0-2B36471B89B5",
+            "enum": [
+              "EF217D0C-9085-45D7-AAE0-2B36471B89B5"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request processed successfully by the service. Details can be found in the returned JSON.<br/>\r\nThe service will retain this operation for 24 hours only, after that it will be deleted from the service.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n   <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>status</th>\r\n        <td>The status of the operation.\r\n          <ul>\r\n            <li><b>notstarted</b>: The operation is not started.</li>\r\n            <li><b>running</b>: The operation is running.</li>\r\n            <li><b>failed</b>: The operation is finished and failed.</li>\r\n            <li><b>succeeded</b>: The operation is finished and succeeded.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <th>createdDateTime</th>\r\n        <td>Created date of the operation.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>lastActionDateTime</th>\r\n        <td>Last date of usage for this operation.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>message</th>\r\n        <td>Detail message returned by this operation. Used in operations with failed status to show detail failure message.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>processingResult</th>\r\n        <td>An Json Object contains the processing result. This object exists only when the operation status is succeeded.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>EnrollmentStatus</th>\r\n        <td>Speaker identification profile enrollment status:\r\n          <ul>\r\n            <li><b>Enrolling</b>: profile is currently enrolling and is not ready for identification.</li>\r\n            <li><b>Training</b>: profile is currently training and is not ready for identification.</li>\r\n            <li><b>Enrolled</b>: profile is currently enrolled and is ready for identification.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n      <tr>\r\n        <th>enrollmentSpeechTime</th>\r\n        <td>Speaker identification profile enrollment length in seconds of speech.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>remainingEnrollmentSpeechTime</th>\r\n        <td>Remaining number of speech seconds to complete minimum enrollment.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>speechTime</th>\r\n        <td>Seconds of useful speech in enrollment audio.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>identifiedProfileId</th>\r\n        <td>The identified speaker identification profile id. If this value is 00000000-0000-0000-0000-000000000000, it means there's no speaker identification profile identified and the audio file to be identified belongs to none of the provided speaker identification profiles.</td>\r\n      </tr>\r\n      <tr>\r\n        <th>confidence</th>\r\n        <td>The confidence value of the identification.\r\n          <ul>\r\n            <li><b>Low</b>: The confidence of the identification is low.</li>\r\n            <li><b>Normal</b>: The confidence of the identification is normal.</li>\r\n            <li><b>High</b>: The confidence of the identification is high.</li>\r\n          </ul>\r\n        </td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": "Case 1 - not started \r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"notstarted\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\",\r\n  \"lastActionDateTime\": \"2015-09-30T01:29:23Z\"\r\n}\r\n\r\nCase 3 - running\r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"running\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\",\r\n  \"lastActionDateTime\": \"2015-09-30T01:32:23Z\",\r\n}\r\n\r\nCase 4 - failed\r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"failed\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\"\r\n  \"lastActionDateTime\": \"2015-09-30T01:35:23Z\"\r\n  \"message\":  \"Some failure info\"\r\n}\r\n\r\nCase 5 - succeeded\r\nCase 5.1: Enrollment Result: in this case, the enrollment result would be returned inline in \"processingResult\" field.\r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"succeeded\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\", \r\n  \"lastActionDateTime\": \"2015-09-30T01:37:23Z\",\r\n  \"processingResult\": \r\n  {\r\n    \"enrollmentStatus\" : \"Enrolled\", // [Enrolled|Enrolling|Training]\r\n    \"remainingEnrollmentSpeechTime\" : 0.0,\r\n    \"speechTime\" : 0.0,\r\n    \"enrollmentSpeechTime\":0.0\r\n  }\r\n}\r\n\r\nCase 5.2.1: Identification Result: in this case, the identification result would be returned inline in \"processingResult\" field. It successfully identified one of the provided profiles.\r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"succeeded\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\", \r\n  \"lastActionDateTime\": \"2015-09-30T01:37:23Z\",\r\n  \"processingResult\": \r\n  {\r\n    \"identifiedProfileId\" : \"111f427c-3791-468f-b709-fcef7660fff9\", \r\n    \"confidence\" : \"Normal\" //[Low | Normal | High]\r\n  }\r\n}\r\n\r\nCase 5.2.2: Identification Result: in this case, the identification result would be returned inline in \"processingResult\" field. It cannot identify the audio among the provided profiles.\r\nHTTP/1.1 200 Ok\r\nContent-Type: application/json\r\n{\r\n  \"status\": \"succeeded\",\r\n  \"createdDateTime\":  \"2015-09-30T01:28:23Z\", \r\n  \"lastActionDateTime\": \"2015-09-30T01:37:23Z\",\r\n  \"processingResult\": \r\n  {\r\n    \"identifiedProfileId\" : \"00000000-0000-0000-0000-000000000000\", \r\n    \"confidence\" : \"Normal\" //[Low | Normal | High]\r\n  }\r\n}\r\n\r\n"
+            }
+          },
+          "404": {
+            "description": "Can't find operation.",
+            "examples": {
+              "application/json": {
+                "error": {
+                  "code": "NotFound",
+                  "message": "No operation id found"
+                }
+              }
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/verificationPhrases": {
+      "get": {
+        "description": "Returns the list of supported verification phrases that can be used for <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/56406930e597ed20c8d8549c\">Verification Profile - Create Enrollment</a> and <a href=\"https://dev.projectoxford.ai/docs/services/563309b6778daf02acc0a508/operations/56406930e597ed20c8d8549d\">Speaker Recognition - Verification</a>.",
+        "operationId": "Verification Phrase - List All Supported Verification Phrases",
+        "parameters": [
+          {
+            "name": "locale",
+            "in": "query",
+            "description": "Locale for the language when retrieving verification phrases.",
+            "required": true,
+            "type": "string",
+            "default": "en-US",
+            "enum": [
+              "en-US"
+            ]
+          },
+          {
+            "name": "subscription-key",
+            "in": "query",
+            "description": "subscription key in url",
+            "type": "string"
+          },
+          {
+            "name": "Ocp-Apim-Subscription-Key",
+            "in": "header",
+            "description": "subscription key in header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Request processed successfully and the list of supported phrases are returned. The returned JSON array consists of a list of objects that contain the supported phrases.<br/><br/>\r\nDescription of the fields in the returned JSON response,\r\n  <table class=\"table table-hover\">\r\n    <thead>\r\n      <tr>\r\n        <th>Fields</th>\r\n        <th>Description</th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      <tr>\r\n        <th>phrase</th>\r\n        <td>The supported phrase of the speaker verification API.</td>\r\n      </tr>\r\n    </tbody>\r\n  </table>",
+            "examples": {
+              "application/json": "[\r\n  {\r\n    \"phrase\":\"phrase1\"\r\n  },\r\n  {\r\n    \"phrase\":\"phrase2\"\r\n  },\r\n  ...\r\n]"
+            }
+          }
+        },
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  }
+}

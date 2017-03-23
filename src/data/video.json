@@ -1,0 +1,287 @@
+{
+  "name": "Video",
+  "url": "https://westus.api.cognitive.microsoft.com/video/v1.0",
+  "methods": [
+    {
+      "normName": "stabilizationPost",
+      "normNameCap": "StabilizationPost",
+      "responseTypeName": "StabilizationPostResult",
+      "responseType": "{}",
+      "description": "Smooths and stabilizes a video.  •  The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. •  Stabilization is optimized for small camera motions, with or without rolling shutter effects (e.g. holding a static camera, and walking with a slow speed). •  Both width and height of the input video must be even numbers. •  The resolution of the input video should be less than or equal to 2160P (4K, 3840 X 2160). • Output files are deleted after 24 hours.",
+      "path": "/stabilize",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "StabilizationPostQueryParameters",
+      "normHeaderParametersName": "StabilizationPostHeaderParameters",
+      "normPathParametersName": "StabilizationPostPathParameters",
+      "params": "queryParams: StabilizationPostQueryParameters, headerParams: StabilizationPostHeaderParameters"
+    },
+    {
+      "normName": "getOperationResultGet",
+      "normNameCap": "GetOperationResultGet",
+      "responseTypeName": "GetOperationResultGetResult",
+      "responseType": "{ \"status\": string; \"createdDateTime\": string; \"lastActionDateTime\": string; }",
+      "description": "Get operation result. If succeeded, this interface returns a JSON that includes time stamps and operation status. Below is an example:\r\n\r\nExample JSON:\r\n\r\n            \r\n            \r\n            \r\n            \r\n{\r\n\t\"status\": \"Running\",\r\n\t\"createdDateTime\":  \"2015-09-30T01:28:23.4493273Z\",\r\n\t\"lastActionDateTime\": \"2015-09-30T01:32:23.0895791Z\",\r\n}\r\n             \r\n            \r\n\r\n\r\n\r\nPossible values of \"status\" field are:\r\nNot Started - video content is received/uploaded but the process has not started.\r\nUploading - the video content is being uploaded by the URL client side provides.\r\nRunning - the process is running.\r\nFailed - the process is failed. Detailed information will be provided in \"message\" field.\r\nSucceeded - the process succeeded. In this case, depending on specific operation client side created, the result can be retrieved in following two ways:\r\n\r\n\r\n            \r\n            Video OperationHow to Retrieve Result\r\n            \r\n            \r\n            StabilizationThe result (as a video file) can be retrieved from the URL specified in resourceLocation field.\r\n            Face Detection and TrackingMotion Detection \r\nThe result (as a JSON in string) is available in processingResult field.\r\n             \r\n",
+      "path": "/operations/{oid}",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "oid",
+          "in": "path",
+          "description": "OperationId",
+          "required": true,
+          "type": "string",
+          "normName": "oid"
+        }
+      ],
+      "normQueryParametersName": "GetOperationResultGetQueryParameters",
+      "normHeaderParametersName": "GetOperationResultGetHeaderParameters",
+      "normPathParametersName": "GetOperationResultGetPathParameters",
+      "params": "queryParams: GetOperationResultGetQueryParameters, headerParams: GetOperationResultGetHeaderParameters, pathParams: GetOperationResultGetPathParameters"
+    },
+    {
+      "normName": "faceDetectionAndTrackingPost",
+      "normNameCap": "FaceDetectionAndTrackingPost",
+      "responseTypeName": "FaceDetectionAndTrackingPostResult",
+      "responseType": "{}",
+      "description": "Detects and tracks human faces in a video and returns face locations. • The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. • The detectable face size range is 24x24 to 2048x2048 pixels. The faces out of this range will not be detected. • For each video, the maximum number of faces returned is 64. • Some faces may not be detected due to technical challenges; e.g. very large face angles (head-pose), and large occlusion. Frontal and near-frontal faces have the best results. • Output files are deleted after 24 hours.\r\n",
+      "path": "/trackface",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "FaceDetectionAndTrackingPostQueryParameters",
+      "normHeaderParametersName": "FaceDetectionAndTrackingPostHeaderParameters",
+      "normPathParametersName": "FaceDetectionAndTrackingPostPathParameters",
+      "params": "queryParams: FaceDetectionAndTrackingPostQueryParameters, headerParams: FaceDetectionAndTrackingPostHeaderParameters"
+    },
+    {
+      "normName": "motionDetectionPost",
+      "normNameCap": "MotionDetectionPost",
+      "responseTypeName": "MotionDetectionPostResult",
+      "responseType": "{}",
+      "description": "Detects motion in a video, and returns the frame and duration of the motion that was captured. • The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. • User can input detection zones to set up as areas to detect motion. • User can specify motion sensitivity: high, medium, and low. Higher sensitivity means more motions will be detected at a cost that more false alarms will be reported.• Motion Detection is optimized for stationary background videos. • User can specify whether light change events should be detected. A light change refers to a change in the frame that was caused by a light turning off and on. Some developers do not want to detect this, as they consider it a false alarm. Other developers want to make sure they capture any change, light changes included.• User can specify whether successive motions should be merged together by passing in a parameter (mergeTimeThreshold) For example, if a motion happens from 1 to 4 seconds and the next motion happens from 5 to 10 seconds, some developers will want to count that as one instance of motion.• User can specify which frames to be detected by passing in a parameter (frameSamplingValue).• Some motion may not be detected due to technical challenges; e.g. semi-transparent objects, and some small objects. • Output files are deleted after 24 hours.\r\n",
+      "path": "/detectmotion",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "sensitivityLevel",
+          "in": "query",
+          "description": "Specify the detection sensitivity level: “low”, “medium”, “high”. Higher sensitivity means more motions will be detected at a cost that more false alarms will be reported. The default value is “medium”.",
+          "type": "string",
+          "normName": "sensitivityLevel"
+        },
+        {
+          "name": "frameSamplingValue",
+          "in": "query",
+          "description": "User may skip frames by setting this parameter. It can be used as a tradeoff between performance and cost, skipping frames may reduce processing time but result in worse detection performance. The default value is 1, meaning detecting motion for every frame. If set to 2, then the algorithm will detect one frame for every two frames. The upper bound is 20.",
+          "type": "number",
+          "normName": "frameSamplingValue"
+        },
+        {
+          "name": "detectionZones",
+          "in": "query",
+          "description": "User can setup detection zones by passing in a string like “detectionZones=0,0;0.5,0;1,0;1,0.5;1,1;0.5,1;0,1;0,0.5 |0.3,0.3;0.55,0.3;0.8,0.3; 0.8,0.55;0.8,0.8;0.55,0.8;0.3,0.8;0.3,0.55;| 0,0;1,0;1,1;0,1”, each detection zone is separated by a “|” and each point is defined by a “x,y” pair and separated by a “;”. At most 8 detection zones are supported and each detection zone should be defined by at least 3 points and no more than 16 points. The default setting is “detectionZones=0,0;0.5,0;1,0;1,0.5;1,1;0.5,1;0,1;0,0.5”, i.e. the whole frame defined by an 8-point polygon.",
+          "type": "string",
+          "normName": "detectionZones"
+        },
+        {
+          "name": "detectLightChange",
+          "in": "query",
+          "description": "Specify whether light change events should be detected. The default value is false.",
+          "type": "boolean",
+          "normName": "detectLightChange"
+        },
+        {
+          "name": "mergeTimeThreshold",
+          "in": "query",
+          "description": "Specify the threshold on whether successive motions should be merged together, if the interval between successive motions is <= mergeTimeThreshold, they will be merged. The default value is 0.0 and upper bound is 10.0.",
+          "type": "number",
+          "normName": "mergeTimeThreshold"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "MotionDetectionPostQueryParameters",
+      "normHeaderParametersName": "MotionDetectionPostHeaderParameters",
+      "normPathParametersName": "MotionDetectionPostPathParameters",
+      "params": "queryParams: MotionDetectionPostQueryParameters, headerParams: MotionDetectionPostHeaderParameters"
+    },
+    {
+      "normName": "getResultVideoGet",
+      "normNameCap": "GetResultVideoGet",
+      "responseTypeName": "GetResultVideoGetResult",
+      "responseType": "{}",
+      "description": "This interface is used for getting result video content. Currently only Stabilization outputs video content as result. The URL to this interface should be retrieved from resourceLocation field of JSON returned from Get Operation Result interface.",
+      "path": "/operations/{oid}/content",
+      "method": "get",
+      "queryParameters": [
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "pathParameters": [
+        {
+          "name": "oid",
+          "in": "path",
+          "description": "",
+          "required": true,
+          "type": "string",
+          "normName": "oid"
+        }
+      ],
+      "normQueryParametersName": "GetResultVideoGetQueryParameters",
+      "normHeaderParametersName": "GetResultVideoGetHeaderParameters",
+      "normPathParametersName": "GetResultVideoGetPathParameters",
+      "params": "queryParams: GetResultVideoGetQueryParameters, headerParams: GetResultVideoGetHeaderParameters, pathParams: GetResultVideoGetPathParameters"
+    },
+    {
+      "normName": "thumbnailPost",
+      "normNameCap": "ThumbnailPost",
+      "responseTypeName": "ThumbnailPostResult",
+      "responseType": "{}",
+      "description": "Generates a motion thumbnail from a video. The Video Thumbnail API provides an automatic summary for videos to let people see a preview or snapshot quickly. Selection of scenes from a video create a preview in form of a short video. \r\n• The supported input video formats include MP4, MOV, and WMV. Video file size should be no larger than 100MB. \r\n• The number of scenes displayed in the thumbnail is either chosen by the user or defaults to the optimal duration supported by the Video API’s algorithm.\r\n• A scene is a collection of indexed frames. Scenes are mapped according to sequence in video. \r\n• Fade in/fade out effects are included in the thumbnail by default, but can be turned off by the user. \r\n• Audio is included by default, but can be turned off by the user. Pauses in audio are detected to divide video into coherent scenes and avoid breaking sentences of speech.\r\n• Output files are deleted after 24 hours.\r\n\r\n* Optimal Duration of Video Thumbnail Supported by Video API shown in table below.\r\n\r\n\r\n\r\n\r\n\r\n\r\nMotion Thumbnail\r\n\r\n\r\nVideo duration (d)\r\nd < 3min\r\n3min < d < 15min\r\n15min < d < 30min\r\n30min < d\r\n\r\n\r\nThumbnail duration\r\n15sec (2-3 scenes)\r\n30sec (3-5 scenes)\r\n60sec (5-10 scenes)\r\n90sec (10-15 scenes)\r\n\r\n\r\n",
+      "path": "/generatethumbnail",
+      "method": "post",
+      "queryParameters": [
+        {
+          "name": "maxMotionThumbnailDurationInSecs",
+          "in": "query",
+          "description": "Specifies maximum duration of output video (in seconds). The default value is 0, which indicates the duration will be automatically decided by the algorithm.",
+          "type": "number",
+          "normName": "maxMotionThumbnailDurationInSecs"
+        },
+        {
+          "name": "outputAudio",
+          "in": "query",
+          "description": "Indicates whether output video should include audio track. The default value is true.",
+          "type": "boolean",
+          "normName": "outputAudio"
+        },
+        {
+          "name": "fadeInFadeOut",
+          "in": "query",
+          "description": "Indicates whether output video should have fade in/out effect during scene changes. The default value is true.",
+          "type": "boolean",
+          "normName": "fadeInFadeOut"
+        },
+        {
+          "name": "subscription-key",
+          "in": "query",
+          "description": "subscription key in url",
+          "type": "string",
+          "normName": "subscriptionKey"
+        }
+      ],
+      "headerParameters": [
+        {
+          "name": "Ocp-Apim-Subscription-Key",
+          "in": "header",
+          "description": "subscription key in header",
+          "type": "string",
+          "normName": "ocpApimSubscriptionKey"
+        }
+      ],
+      "normQueryParametersName": "ThumbnailPostQueryParameters",
+      "normHeaderParametersName": "ThumbnailPostHeaderParameters",
+      "normPathParametersName": "ThumbnailPostPathParameters",
+      "params": "queryParams: ThumbnailPostQueryParameters, headerParams: ThumbnailPostHeaderParameters"
+    }
+  ],
+  "globalQueryParameters": [
+    {
+      "name": "subscription-key",
+      "in": "query",
+      "description": "subscription key in url",
+      "type": "string",
+      "normName": "subscriptionKey"
+    }
+  ],
+  "globalHeaderParameters": [
+    {
+      "name": "Ocp-Apim-Subscription-Key",
+      "in": "header",
+      "description": "subscription key in header",
+      "type": "string",
+      "normName": "ocpApimSubscriptionKey"
+    }
+  ],
+  "globalPathParameters": []
+}
