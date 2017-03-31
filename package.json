@@ -1,5 +1,5 @@
 {
-  "name": "swagger-cognitive-sevices",
+  "name": "swagger-cognitive-services",
   "version": "0.0.1",
   "description": "Unofficial typescript API for Microsoft Cognitive Services based on swagger api definitions.",
   "main": "./dist/index.js",
